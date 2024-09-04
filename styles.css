@@ -192,6 +192,9 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
 .trends li .content .trend {
     font-size: 1.1rem;
     color: white;
+    max-width: 216px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .trends .counter {
