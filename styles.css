@@ -54,7 +54,7 @@
 
 /* item do canto */
 .r-pm9dpa {
-    background-color: rgb(0, 0, 0) !important;
+    /* background-color: rgb(0, 0, 0) !important; */
     border: 1px solid #ffffff30 !important;
     margin: 10px !important;
     overflow: hidden !important;
@@ -74,9 +74,9 @@
 }
 
 
-.r-1ye8kvj .css-175oi2r[class="css-175oi2r r-1loqt21 r-1otgn73"]:nth-child(1n):hover {
+/* .r-1ye8kvj .css-175oi2r[class="css-175oi2r r-1loqt21 r-1otgn73"]:nth-child(1n):hover {
     background-color: #080808 !important;
-}
+} */
 
 /* cor da borda */
 .r-1ye8kvj {
@@ -98,9 +98,13 @@ button[aria-label="New post"] {
     left: calc(-590px + 50vw) !important;
 }
 
-div[style="background-color: rgb(20, 27, 35);"] {
-    background: rgb(32 35 39) !important;
+div[class="css-175oi2r r-1awozwy r-1llaxt6 r-13awgt0 r-18u37iz r-11f147o r-3o4zer"] {
     padding: 14px 22px !important;
+
+}
+
+div[class="background-color: rgb(20, 27, 35);"] {
+    background: rgb(32 35 39) !important;
     --placeholderTextColor: hsl(0deg 0% 100% / 31%) !important;
 }
 
@@ -126,12 +130,25 @@ div[style="background-color: rgb(20, 27, 35);"] {
     transition: all 2s ease-in-out;
 }
 
+.r-196lrry .r-5kkj8d {
+    /* remove a borda em cima dos trends */
+    border-top: none;
+}
+
+div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
+    border-top: none;
+}
+
 .trends {
-    background: black;
+    background: rgba(0, 0, 0, 0.068);
     width: 100%;
-    border: 1px solid #ffffff45;
+    border: 1px solid #ffffff36 !important;
     border-radius: 10px;
     box-sizing: border-box;
+}
+
+.trends a{
+    cursor: pointer !important;
 }
 
 .trends .content {
@@ -201,33 +218,42 @@ div[style="background-color: rgb(20, 27, 35);"] {
     cursor: pointer;
 }
 
-.trends .loadingtrends{
+.trends .loadingtrends {
     margin-left: 12px;
     color: rgba(255, 255, 255, 0.671);
 }
 
-.trends .apoie{
+.trends .apoie {
     border-top: 1px solid #ffffff1f;
     margin: 0 10px;
     text-align: center;
     padding-top: 10px;
     display: block;
-    margin-top:6px;
+    margin-top: 6px;
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgb(255, 255, 255);
 }
 
-.trends .apoie a{
+.trends .apoie a {
     color: #FF9325;
 }
 
-.trends .apoie a:hover{
+.trends .apoie a:hover {
     text-decoration: underline;
 }
 
-.beta{
+.beta {
     background-color: rgb(109, 109, 255);
     border-radius: 5px;
     font-size: 0.7rem;
     padding: 4px 7px;
+}
+
+#preload svg path{
+    fill: #FF9325 !important;
+}
+
+#preload svg::after{
+    content: 'BetterBluesky by @nemtudo.me' !important;
+    color: #FF9325 !important;
 }
