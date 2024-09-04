@@ -75,7 +75,7 @@ function addTrendsHTML() {
     const element = document.querySelector("div[class='css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr']") || document.querySelector('div[class="css-175oi2r r-196lrry r-pm9dpa r-1rnoaur r-1xcajam r-1ipicw7"]')
 
     if (element) element.innerHTML = `<div class="trends">
-    <h2 id="trendingsname">Trendings Topics <span class='beta'>BETA</span></h2>
+    <h2 id="trendingsname">Trending Topics <span class='beta'>BETA</span></h2>
     <div class='description'>
     <span>Fornecido por <a style="color: #FF9325;" target="_blank" role="link" href='https://nemtudo.me/betterbluesky'>BetterBluesky</a>.<br> Desenvolvido por <a target="_blank" href='https://bsky.app/profile/nemtudo.me'>@nemtudo.me</a>. Siga!</span>
     </div>
