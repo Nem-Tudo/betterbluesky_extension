@@ -10,6 +10,66 @@ function loadBetterbluesky() {
     }
 }
 
+//sets the color scheme, by flaf
+function setTheme() {
+    const storage = JSON.parse(localStorage.getItem("BSKY_STORAGE"));
+    if (!storage) return;
+
+    const root = document.documentElement;
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    if (storage.colorMode === "light" || (!prefersDarkScheme && storage.colorMode == "system")) {
+
+        root.style.setProperty('--background-color', '#FFFFFF');
+        root.style.setProperty('--border-color', 'rgba(0, 0, 0, 0.14)');
+        root.style.setProperty('--hover-background-color', 'rgba(241, 243, 245, 1)');
+        root.style.setProperty('--trends-bg-color', '#FFFFFF');
+        root.style.setProperty('--trends-border-color', 'rgba(0, 0, 0, 0.14)');
+        root.style.setProperty('--trends-font-color', '#000');
+        root.style.setProperty('--trends-span-color', 'rgba(0, 0, 0, 0.48)');
+
+    }else if (storage.darkTheme === "dim") {
+
+        root.style.setProperty('--background-color', 'rgb(22, 30, 39)');
+        root.style.setProperty('--border-color', 'rgba(255, 255, 255, 0.14)');
+        root.style.setProperty('--hover-background-color', 'rgba(30, 41, 54, 1)'); 
+        root.style.setProperty('--trends-bg-color', 'rgb(22, 30, 39)');
+        root.style.setProperty('--trends-border-color', 'rgba(255, 255, 255, 0.14)');
+        root.style.setProperty('--trends-font-color', '#fff');
+        root.style.setProperty('--trends-span-color', 'rgba(255, 255, 255, 0.48)');
+
+    }else{
+
+        root.style.setProperty('--background-color', '#000000');
+        root.style.setProperty('--border-color', 'rgba(255, 255, 255, 0.14)');
+        root.style.setProperty('--hover-background-color', 'rgba(20, 27, 35, 1)');
+        root.style.setProperty('--trends-bg-color', 'black');
+        root.style.setProperty('--trends-border-color', 'rgba(255, 255, 255, 0.27)');
+        root.style.setProperty('--trends-font-color', '#fff');
+        root.style.setProperty('--trends-span-color', 'rgba(255, 255, 255, 0.48)');
+        
+    }
+}
+
+// VERY HACKY WAY TO CHECK FOR THEME CHANGE, THIS SUCKS!
+function observeBackgroundChange() {
+    const body = document.body;
+
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                setTheme(); 
+            }
+        });
+    });
+
+    observer.observe(body, {
+        attributes: true, 
+        attributeFilter: ['style'], 
+    });
+}
+
+
 function setFavicon() {
     document.querySelectorAll('link[rel*="icon"]').forEach(element => {
         element.href = "https://nemtudo.me/cdn/betterblueskylogo.png";
@@ -62,8 +122,8 @@ function escapeHTML(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
-window.addEventListener('load', () => setTimeout(() => { loadBetterbluesky(); setFavicon() }, 3000));
-window.addEventListener('load', setFavicon);
+window.addEventListener('load', () => setTimeout(() => { loadBetterbluesky(); setFavicon() }, 3000)); 
+window.addEventListener('load', () => {setFavicon(); setTheme(); observeBackgroundChange();});
 window.addEventListener('load', () => setTimeout(() => { addTrendsHTML() }, 2000));
 document.addEventListener('click', () => {
     addTrendsHTML();

@@ -1,6 +1,7 @@
 @font-face {
     font-family: TwitterChirp;
-    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Light.3a18e64a.woff2) format('woff2'), url(https://abs.twimg.com/responsive-web/client-web/Chirp-Light.7a5673aa.woff) format('woff');
+    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Light.3a18e64a.woff2) format('woff2'), 
+         url(https://abs.twimg.com/responsive-web/client-web/Chirp-Light.7a5673aa.woff) format('woff');
     font-weight: 300;
     font-style: 'normal';
     font-display: 'swap';
@@ -8,7 +9,8 @@
 
 @font-face {
     font-family: TwitterChirp;
-    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Regular.80fda27a.woff2) format('woff2'), url(https://abs.twimg.com/responsive-web/client-web/Chirp-Regular.60b215ba.woff) format('woff');
+    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Regular.80fda27a.woff2) format('woff2'), 
+         url(https://abs.twimg.com/responsive-web/client-web/Chirp-Regular.60b215ba.woff) format('woff');
     font-weight: 400;
     font-style: 'normal';
     font-display: 'swap';
@@ -16,7 +18,8 @@
 
 @font-face {
     font-family: TwitterChirp;
-    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Medium.f8e2739a.woff2) format('woff2'), url(https://abs.twimg.com/responsive-web/client-web/Chirp-Medium.20fc288a.woff) format('woff');
+    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Medium.f8e2739a.woff2) format('woff2'), 
+         url(https://abs.twimg.com/responsive-web/client-web/Chirp-Medium.20fc288a.woff) format('woff');
     font-weight: 500;
     font-style: 'normal';
     font-display: 'swap';
@@ -24,7 +27,8 @@
 
 @font-face {
     font-family: TwitterChirp;
-    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Bold.ebb56aba.woff2) format('woff2'), url(https://abs.twimg.com/responsive-web/client-web/Chirp-Bold.a573679a.woff) format('woff');
+    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Bold.ebb56aba.woff2) format('woff2'), 
+         url(https://abs.twimg.com/responsive-web/client-web/Chirp-Bold.a573679a.woff) format('woff');
     font-weight: 700;
     font-style: 'normal';
     font-display: 'swap';
@@ -32,7 +36,8 @@
 
 @font-face {
     font-family: TwitterChirp;
-    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Heavy.f44ae4ea.woff2) format('woff2'), url(https://abs.twimg.com/responsive-web/client-web/Chirp-Heavy.d70ec7ca.woff) format('woff');
+    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Heavy.f44ae4ea.woff2) format('woff2'), 
+         url(https://abs.twimg.com/responsive-web/client-web/Chirp-Heavy.d70ec7ca.woff) format('woff');
     font-weight: 800;
     font-style: 'normal';
     font-display: 'swap';
@@ -40,22 +45,33 @@
 
 @font-face {
     font-family: TwitterChirpExtendedHeavy;
-    src: url(https://abs.twimg.com/fonts/v1/chirp-extended-heavy-web.woff2) format('woff2'), url(https://abs.twimg.com/fonts/v1/chirp-extended-heavy-web.woff) format('woff');
+    src: url(https://abs.twimg.com/fonts/v1/chirp-extended-heavy-web.woff2) format('woff2'), 
+         url(https://abs.twimg.com/fonts/v1/chirp-extended-heavy-web.woff) format('woff');
     font-weight: 800;
     font-style: 'normal';
     font-display: 'swap';
 }
-
 
 /* fonte */
 * {
     font-family: TwitterChirp, -apple-system, 'Segoe UI', sans-serif !important;
 }
 
+/* Colors to be used moved here! Default is dark theme */
+:root {
+    --background-color: #000000;
+    --border-color: rgba(255, 255, 255, 0.14);
+    --hover-background-color: rgba(20, 27, 35, 0.5);
+    --trends-bg-color: black; 
+    --trends-border-color: rgba(255, 255, 255, 0.27); 
+    --trends-font-color: #fff;
+    --trends-span-color: rgba(255, 255, 255, 0.48);
+}
+
 /* item do canto */
 .r-pm9dpa {
-    /* background-color: rgb(0, 0, 0) !important; */
-    border: 1px solid #ffffff30 !important;
+    background-color: var(--background-color) !important;
+    border: 1px solid var(--border-color) !important;
     margin: 10px !important;
     overflow: hidden !important;
     padding: 11px !important;
@@ -73,14 +89,14 @@
     transition: all 0.2s ease !important;
 }
 
-
 /* .r-1ye8kvj .css-175oi2r[class="css-175oi2r r-1loqt21 r-1otgn73"]:nth-child(1n):hover {
     background-color: #080808 !important;
 } */
 
+
 /* cor da borda */
 .r-1ye8kvj {
-    border-color: rgb(255 255 255 / 14%) !important;
+    border-color: var(--border-color) !important;
 }
 
 /* outros */
@@ -98,14 +114,13 @@ button[aria-label="New post"] {
     left: calc(-590px + 50vw) !important;
 }
 
-div[class="css-175oi2r r-1awozwy r-1llaxt6 r-13awgt0 r-18u37iz r-11f147o r-3o4zer"] {
-    padding: 14px 22px !important;
-
+div[class="background-color: rgb(20, 27, 35);"] {
+    background: rgb(32, 35, 39) !important;
+    --placeholderTextColor: hsl(0deg 0% 100% / 31%) !important;
 }
 
-div[class="background-color: rgb(20, 27, 35);"] {
-    background: rgb(32 35 39) !important;
-    --placeholderTextColor: hsl(0deg 0% 100% / 31%) !important;
+div[class="css-175oi2r r-1awozwy r-1llaxt6 r-13awgt0 r-18u37iz r-11f147o r-3o4zer"] {
+    padding: 14px 22px !important;
 }
 
 .css-175oi2r div[class="css-175oi2r r-1la3zjv r-3o4zer"] div:last-child::after {
@@ -113,8 +128,8 @@ div[class="background-color: rgb(20, 27, 35);"] {
     color: #FF9325;
 }
 
-
 /* trends */
+
 
 .trends ul::-webkit-scrollbar {
     width: 5px;
@@ -140,14 +155,14 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
 }
 
 .trends {
-    background: rgba(0, 0, 0, 0.068);
+    background: var(--trends-bg-color) !important;
     width: 100%;
-    border: 1px solid #ffffff36 !important;
+    border: 1px solid var(--trends-border-color) !important;
     border-radius: 10px;
     box-sizing: border-box;
 }
 
-.trends a{
+.trends a {
     cursor: pointer !important;
 }
 
@@ -159,15 +174,15 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
 .trends ul {
     padding: 0;
     max-height: 400px;
-    overflow: auto
+    overflow: auto;
 }
 
 .trends li a:hover {
-    background-color: rgba(248, 248, 248, 0.082);
+    background-color: var(--hover-background-color);
 }
 
 .trends li .content span {
-    color: rgba(255, 255, 255, 0.48);
+    color: var(--trends-span-color);
     font-size: 0.8rem;
 }
 
@@ -191,12 +206,12 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
 
 .trends li .content .trend {
     font-size: 1.1rem;
-    color: white;
+    color: var(--trends-font-color);
 }
 
 .trends .counter {
     font-size: 1.2rem;
-    color: white;
+    color: var(--trends-font-color);
     margin-right: 20px;
     margin-left: 10px;
 }
@@ -231,7 +246,7 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
     display: block;
     margin-top: 6px;
     font-size: 0.8rem;
-    color: rgb(255, 255, 255);
+    color: var(--trends-font-color);
 }
 
 .trends .apoie a {
@@ -249,11 +264,11 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
     padding: 4px 7px;
 }
 
-#preload svg path{
+#preload svg path {
     fill: #FF9325 !important;
 }
 
-#preload svg::after{
+#preload svg::after {
     content: 'BetterBluesky by @nemtudo.me' !important;
     color: #FF9325 !important;
 }
