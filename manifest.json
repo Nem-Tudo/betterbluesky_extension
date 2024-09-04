@@ -1,0 +1,26 @@
+{
+    "manifest_version": 3,
+    "name": "BetterBluesky - Trends & more",
+    "version": "2.1",
+    "description": "Improve your Bluesky experience! Add Trending Topics, improve design and more!",
+    "action": {
+        "default_popup": "index.html"
+    },
+    "permissions": [],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://bsky.app/*"
+            ],
+            "js": [
+                "script.js"
+            ],
+            "css": [
+                "styles.css"
+            ]
+        }
+    ],
+    "icons": {
+        "128": "icon.png"
+    }
+}

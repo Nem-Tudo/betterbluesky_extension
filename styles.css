@@ -1,0 +1,233 @@
+@font-face {
+    font-family: TwitterChirp;
+    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Light.3a18e64a.woff2) format('woff2'), url(https://abs.twimg.com/responsive-web/client-web/Chirp-Light.7a5673aa.woff) format('woff');
+    font-weight: 300;
+    font-style: 'normal';
+    font-display: 'swap';
+}
+
+@font-face {
+    font-family: TwitterChirp;
+    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Regular.80fda27a.woff2) format('woff2'), url(https://abs.twimg.com/responsive-web/client-web/Chirp-Regular.60b215ba.woff) format('woff');
+    font-weight: 400;
+    font-style: 'normal';
+    font-display: 'swap';
+}
+
+@font-face {
+    font-family: TwitterChirp;
+    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Medium.f8e2739a.woff2) format('woff2'), url(https://abs.twimg.com/responsive-web/client-web/Chirp-Medium.20fc288a.woff) format('woff');
+    font-weight: 500;
+    font-style: 'normal';
+    font-display: 'swap';
+}
+
+@font-face {
+    font-family: TwitterChirp;
+    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Bold.ebb56aba.woff2) format('woff2'), url(https://abs.twimg.com/responsive-web/client-web/Chirp-Bold.a573679a.woff) format('woff');
+    font-weight: 700;
+    font-style: 'normal';
+    font-display: 'swap';
+}
+
+@font-face {
+    font-family: TwitterChirp;
+    src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Heavy.f44ae4ea.woff2) format('woff2'), url(https://abs.twimg.com/responsive-web/client-web/Chirp-Heavy.d70ec7ca.woff) format('woff');
+    font-weight: 800;
+    font-style: 'normal';
+    font-display: 'swap';
+}
+
+@font-face {
+    font-family: TwitterChirpExtendedHeavy;
+    src: url(https://abs.twimg.com/fonts/v1/chirp-extended-heavy-web.woff2) format('woff2'), url(https://abs.twimg.com/fonts/v1/chirp-extended-heavy-web.woff) format('woff');
+    font-weight: 800;
+    font-style: 'normal';
+    font-display: 'swap';
+}
+
+
+/* fonte */
+* {
+    font-family: TwitterChirp, -apple-system, 'Segoe UI', sans-serif !important;
+}
+
+/* item do canto */
+.r-pm9dpa {
+    background-color: rgb(0, 0, 0) !important;
+    border: 1px solid #ffffff30 !important;
+    margin: 10px !important;
+    overflow: hidden !important;
+    padding: 11px !important;
+    box-sizing: content-box !important;
+    border-radius: 13px !important;
+}
+
+/* logo laranja */
+.r-33ulu8 div svg path {
+    fill: #FF9325 !important;
+}
+
+/* transição nos posts */
+.r-1ye8kvj .css-175oi2r[class="css-175oi2r r-1loqt21 r-1otgn73"] {
+    transition: all 0.2s ease !important;
+}
+
+
+.r-1ye8kvj .css-175oi2r[class="css-175oi2r r-1loqt21 r-1otgn73"]:nth-child(1n):hover {
+    background-color: #080808 !important;
+}
+
+/* cor da borda */
+.r-1ye8kvj {
+    border-color: rgb(255 255 255 / 14%) !important;
+}
+
+/* outros */
+div[data-testid="profilePager-selector"] div {
+    font-weight: 200 !important;
+}
+
+button[aria-label="Novo post"],
+button[aria-label="New post"] {
+    background: #1d9bf0 !important;
+    padding: 16px 47px !important;
+}
+
+.r-c4unlt {
+    left: calc(-590px + 50vw) !important;
+}
+
+div[style="background-color: rgb(20, 27, 35);"] {
+    background: rgb(32 35 39) !important;
+    padding: 14px 22px !important;
+    --placeholderTextColor: hsl(0deg 0% 100% / 31%) !important;
+}
+
+.css-175oi2r div[class="css-175oi2r r-1la3zjv r-3o4zer"] div:last-child::after {
+    content: "· BetterBluesky <3";
+    color: #FF9325;
+}
+
+
+/* trends */
+
+.trends ul::-webkit-scrollbar {
+    width: 5px;
+}
+
+.trends ul::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.trends ul::-webkit-scrollbar-thumb {
+    background: #26282b;
+    border-radius: 10px;
+    transition: all 2s ease-in-out;
+}
+
+.trends {
+    background: black;
+    width: 100%;
+    border: 1px solid #ffffff45;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.trends .content {
+    display: flex;
+    flex-direction: column;
+}
+
+.trends ul {
+    padding: 0;
+    max-height: 400px;
+    overflow: auto
+}
+
+.trends li a:hover {
+    background-color: rgba(248, 248, 248, 0.082);
+}
+
+.trends li .content span {
+    color: rgba(255, 255, 255, 0.48);
+    font-size: 0.8rem;
+}
+
+.trends .description {
+    margin-left: 15px;
+    font-size: 0.8rem;
+}
+
+.trends a {
+    text-decoration: none;
+}
+
+.trends .description a {
+    text-decoration: none;
+    color: rgb(140, 182, 255);
+}
+
+.trends .description a:hover {
+    text-decoration: underline;
+}
+
+.trends li .content .trend {
+    font-size: 1.1rem;
+    color: white;
+}
+
+.trends .counter {
+    font-size: 1.2rem;
+    color: white;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
+.trends h2 {
+    margin: 0;
+    margin-top: 10px;
+    margin-left: 15px;
+    margin-bottom: 5px;
+}
+
+.trends li a {
+    list-style: none;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    transition: all .2s ease;
+    cursor: pointer;
+}
+
+.trends .loadingtrends{
+    margin-left: 12px;
+    color: rgba(255, 255, 255, 0.671);
+}
+
+.trends .apoie{
+    border-top: 1px solid #ffffff1f;
+    margin: 0 10px;
+    text-align: center;
+    padding-top: 10px;
+    display: block;
+    margin-top:6px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.trends .apoie a{
+    color: #FF9325;
+}
+
+.trends .apoie a:hover{
+    text-decoration: underline;
+}
+
+.beta{
+    background-color: rgb(109, 109, 255);
+    border-radius: 5px;
+    font-size: 0.7rem;
+    padding: 4px 7px;
+}
