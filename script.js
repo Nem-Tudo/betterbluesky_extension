@@ -2,6 +2,8 @@
 const apiDomain = "https://betterbluesky.nemtudo.me";
 let trendsUpdatesCounts = 0;
 
+const sessionID = `${Date.now()}_${randomString(10)}` //gera um ID para fins de uso no backend
+
 function loadBetterbluesky() {
     const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
     if (!storage) {
@@ -77,7 +79,7 @@ function setFavicon() {
 }
 
 async function getTrends(count) {
-    const trends = await fetch(`${apiDomain}/api/trends?updateCount=${count}`).then(r => r.json());
+    const trends = await fetch(`${apiDomain}/api/trends?updateCount=${count}&sessionID=${sessionID}`).then(r => r.json());
     return trends.data;
 }
 
@@ -124,9 +126,20 @@ function escapeHTML(unsafe) {
 
 window.addEventListener('load', () => setTimeout(() => { loadBetterbluesky(); setFavicon() }, 3000)); 
 window.addEventListener('load', () => {setFavicon(); setTheme(); observeBackgroundChange();});
+window.addEventListener('load', () => {
+    setInterval(() => {
+        replaceBetterBlueSkyVideos()
+    }, 1000)
+});
+
 window.addEventListener('load', () => setTimeout(() => { addTrendsHTML() }, 2000));
 document.addEventListener('click', () => {
     addTrendsHTML();
+    addVideoButton();
+})
+
+document.addEventListener('click', (event) => {
+    if (event.target.id === "betterblueskyvideobutton") document.querySelector('div[contenteditable="true"]').innerHTML += `&lt;BetterBlueSky_video:${escapeHTML(prompt('Insira o link do vídeo. (Deve terminar em .mp4)'))}&gt;`
 })
 
 function addTrendsHTML() {
@@ -145,6 +158,36 @@ function addTrendsHTML() {
 </div>` + element.innerHTML;
     updateTrends(true);
 }
+
+function addVideoButton() {
+    if (!document.querySelector("#betterblueskyvideobutton")) document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(0, 0, 0); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]').innerHTML += `<button id='betterblueskyvideobutton'>Vídeo</button>` //+ document.querySelector("div[class='css-175oi2r r-1awozwy r-5kkj8d r-18u37iz r-cnw61z r-16lhzmz r-i023vh']").innerHTML;
+}
+
+function replaceBetterBlueSkyVideos() {
+    // Seleciona todo o conteúdo da página
+    const pageContents = document.querySelectorAll('div[data-testid="contentHider-post"],div[class="css-175oi2r r-1hfyk0a r-1qfoi16 r-1mi0q7o"]');
+
+    // Regex para capturar o link no formato <betterblueskyvideo:link>
+    const regex = /&lt;BetterBlueSky_video:(https?:\/\/[^\s>]+)&gt;/g;
+
+    pageContents.forEach(element => {
+        // Substitui pelo elemento de vídeo
+        if (!element.innerHTML.match(regex)) return;
+        element.innerHTML.replace(regex, function (match, url) {
+            if (!validURL(url)) return;
+            const updatedContent = `<video class="betterblueskyvideo" controls>
+                    <source src="${escapeHTML(url)}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>`;
+            console.log(updatedContent, "updatedContent")
+            element.innerHTML = updatedContent;
+        });
+
+        // Atualiza o conteúdo da página
+    })
+
+}
+
 
 
 (function () { //easter egg trem de tópicos
@@ -167,3 +210,26 @@ function addTrendsHTML() {
         }
     });
 })();
+
+
+function validURL(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+    return !!pattern.test(str);
+}
+
+function randomString(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+}
