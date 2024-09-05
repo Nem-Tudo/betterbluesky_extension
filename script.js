@@ -3,11 +3,11 @@ const apiDomain = "https://betterbluesky.nemtudo.me";
 let trendsUpdatesCounts = 0;
 
 function loadBetterbluesky() {
-    const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
-    if (!storage) {
+    if(!localStorage.getItem("BETTERBLUESKY")){
         localStorage.setItem("BETTERBLUESKY", "{loaded: true}");
         alert("Seja muito bem-vindo ao BetterBluesky! Ajude mais pessoas a conhecerem o nosso trabalho curtindo e repostando o post de onde você nos conheceu! Siga @nemtudo.me para atualizações <3")
     }
+    // const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
 }
 
 function setFavicon() {
@@ -35,8 +35,13 @@ async function updateTrends(replaceAll = false) {
     }
 
     html += `<span class="apoie">Gostou? Apoie o projeto! <a target="_blank" href='https://livepix.gg/nemtudo'>livepix.gg/nemtudo</a></span>`
-
-    if (document.querySelector("#trendsarea").innerHTML) replaceAll ? document.querySelector("#trendsarea").innerHTML = html : document.querySelector("#trendsarea").innerHTML += html;
+    if (document.querySelector("#trendsarea")) {
+        if (replaceAll) {
+            document.querySelector("#trendsarea").innerHTML = html;
+        } else {
+            document.querySelector("#trendsarea").innerHTML += html;
+        }
+    }
 }
 
 setInterval(() => {
