@@ -1,8 +1,10 @@
 
-const apiDomain = "https://betterbluesky.nemtudo.me";
+//const apiDomain = "https://betterbluesky.nemtudo.me"; //production
+const apiDomain = "http://localhost:3692"; //dev
 let trendsUpdatesCounts = 0;
 
 const sessionID = `${Date.now()}_${randomString(10)}` //gera um ID para fins de uso no backend
+console.log(`[BetterBluesky] SessionID: ${sessionID}`)
 
 function loadBetterbluesky() {
     const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
@@ -24,26 +26,64 @@ async function getTrends(count) {
 }
 
 async function updateTrends(replaceAll = false) {
-    console.log("ATUALIZANDO TRENDS", trendsUpdatesCounts)
+    console.log("[BetterBluesky] Trends Atualizado", trendsUpdatesCounts)
     const trends = await getTrends(trendsUpdatesCounts);
     trendsUpdatesCounts++;
 
     let html = "";
 
     for (const trend in trends) {
-        html += `<li><a href='${`https://bsky.app/search?q=${encodeURIComponent(trends[trend].text)}`}'><span class="counter">${Number(trend) + 1}</span>
+        html += `<li><a class="trend_item" trend_data="{text: '${encodeURIComponent(trends[trend].text)}', position: ${trend}, count: ${trends[trend].count}}" href='${`https://bsky.app/search?q=${encodeURIComponent(trends[trend].text)}`}'><span class="counter">${Number(trend) + 1}</span>
                 <div class="content"><span class="trend">${escapeHTML(trends[trend].text)}</span>${trends[trend].count ? `<span>${formatNumber(trends[trend].count)} posts</span>` : ""}</div></a>
             </li>`
     }
 
     html += `<span class="apoie">Gostou? Apoie o projeto! <a target="_blank" href='https://livepix.gg/nemtudo'>livepix.gg/nemtudo</a></span>`
 
-    if (document.querySelector("#trendsarea").innerHTML) replaceAll ? document.querySelector("#trendsarea").innerHTML = html : document.querySelector("#trendsarea").innerHTML += html;
+    if (document.querySelector("#trendsarea")) replaceAll ? document.querySelector("#trendsarea").innerHTML = html : document.querySelector("#trendsarea").innerHTML += html;
 }
 
 setInterval(() => {
     updateTrends(true);
 }, 1000 * 30)
+
+//eventos
+
+window.addEventListener('load', () => setTimeout(() => { loadBetterbluesky(); setFavicon() }, 3000));
+window.addEventListener('load', setFavicon);
+window.addEventListener('load', () => {
+    setInterval(() => {
+        replaceBetterBlueSkyVideos()
+    }, 1000)
+});
+window.addEventListener('load', () => setTimeout(() => { addTrendsHTML() }, 2000));
+
+//atualizador de eventos
+document.addEventListener('click', () => {
+    addTrendsHTML();
+    addVideoButton();
+})
+
+//eventos especificos 
+document.addEventListener('click', (event) => {
+    if (event.target.id === "betterblueskyvideobutton") {
+        const url = prompt('[BetterBluesky] Insira o link do vídeo. (Deve terminar em .mp4)');
+        if (!url) return;
+        document.querySelector('div[contenteditable="true"]').innerHTML += `&lt;BetterBlueSky_video:${escapeHTML(url)}&gt;`
+    }
+    if (event.target.classList.contains("trend_item")) {
+        sendStats("trends.click", event.target.getAttribute("trend_data"))
+    }
+})
+
+//funções gerais
+
+function sendStats(event, data){
+    fetch(`${apiDomain}/api/stats?action=${event}&data=${encodeURIComponent(data)}&sessionID=${sessionID}`, { //"action" because "event" cause a bug
+        method: "POST"
+    })
+}
+
 
 function formatNumber(num) {
     if (num >= 1000000) {
@@ -64,22 +104,6 @@ function escapeHTML(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
-window.addEventListener('load', () => setTimeout(() => { loadBetterbluesky(); setFavicon() }, 3000));
-window.addEventListener('load', setFavicon);
-window.addEventListener('load', () => {
-    setInterval(() => {
-        replaceBetterBlueSkyVideos()
-    }, 1000)
-});
-window.addEventListener('load', () => setTimeout(() => { addTrendsHTML() }, 2000));
-document.addEventListener('click', () => {
-    addTrendsHTML();
-    addVideoButton();
-})
-
-document.addEventListener('click', (event) => {
-    if (event.target.id === "betterblueskyvideobutton") document.querySelector('div[contenteditable="true"]').innerHTML += `&lt;BetterBlueSky_video:${escapeHTML(prompt('Insira o link do vídeo. (Deve terminar em .mp4)'))}&gt;`
-})
 
 function addTrendsHTML() {
     if (document.querySelector("#trendsarea")) return;
@@ -99,12 +123,12 @@ function addTrendsHTML() {
 }
 
 function addVideoButton() {
-    if (!document.querySelector("#betterblueskyvideobutton")) document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(0, 0, 0); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]').innerHTML += `<button id='betterblueskyvideobutton'>Vídeo</button>` //+ document.querySelector("div[class='css-175oi2r r-1awozwy r-5kkj8d r-18u37iz r-cnw61z r-16lhzmz r-i023vh']").innerHTML;
+    if ((!document.querySelector("#betterblueskyvideobutton")) && (document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(0, 0, 0); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]'))) document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(0, 0, 0); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]').innerHTML += `<button id='betterblueskyvideobutton'>Vídeo</button>` //+ document.querySelector("div[class='css-175oi2r r-1awozwy r-5kkj8d r-18u37iz r-cnw61z r-16lhzmz r-i023vh']").innerHTML;
 }
 
 function replaceBetterBlueSkyVideos() {
     // Seleciona todo o conteúdo da página
-    const pageContents = document.querySelectorAll('div[data-testid="contentHider-post"],div[class="css-175oi2r r-1hfyk0a r-1qfoi16 r-1mi0q7o"]');
+    const pageContents = document.querySelectorAll('div[data-testid="contentHider-post"],div[class="css-146c3p1 r-1xnzce8"]');
 
     // Regex para capturar o link no formato <betterblueskyvideo:link>
     const regex = /&lt;BetterBlueSky_video:(https?:\/\/[^\s>]+)&gt;/g;
@@ -112,17 +136,17 @@ function replaceBetterBlueSkyVideos() {
     pageContents.forEach(element => {
         // Substitui pelo elemento de vídeo
         if (!element.innerHTML.match(regex)) return;
-        element.innerHTML.replace(regex, function (match, url) {
+        const html = element.innerHTML.replace(regex, function (match, url) {
             if (!validURL(url)) return;
-            const updatedContent = `<video class="betterblueskyvideo" controls>
+            const videoElement = `<video class="betterblueskyvideo" controls>
                     <source src="${escapeHTML(url)}" type="video/mp4">
-                    Your browser does not support the video tag.
+                    Seu navegador não suporta tags de vídeos.
                 </video>`;
-            console.log(updatedContent, "updatedContent")
-            element.innerHTML = updatedContent;
+            return videoElement;
         });
 
         // Atualiza o conteúdo da página
+        element.innerHTML = html;
     })
 
 }
@@ -167,8 +191,8 @@ function randomString(length) {
     const charactersLength = characters.length;
     let counter = 0;
     while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
     }
     return result;
 }
