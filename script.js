@@ -2,6 +2,8 @@
 const apiDomain = "https://betterbluesky.nemtudo.me";
 let trendsUpdatesCounts = 0;
 
+const sessionID = `${Date.now()}_${randomString(10)}` //gera um ID para fins de uso no backend
+
 function loadBetterbluesky() {
     const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
     if (!storage) {
@@ -17,7 +19,7 @@ function setFavicon() {
 }
 
 async function getTrends(count) {
-    const trends = await fetch(`${apiDomain}/api/trends?updateCount=${count}`).then(r => r.json());
+    const trends = await fetch(`${apiDomain}/api/trends?updateCount=${count}&sessionID=${sessionID}`).then(r => r.json());
     return trends.data;
 }
 
@@ -157,4 +159,16 @@ function validURL(str) {
         '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
         '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
     return !!pattern.test(str);
+}
+
+function randomString(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
 }
