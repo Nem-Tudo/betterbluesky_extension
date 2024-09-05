@@ -207,6 +207,10 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
 .trends li .content .trend {
     font-size: 1.1rem;
     color: var(--trends-font-color);
+    max-width: 216px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 }
 
 .trends .counter {
@@ -262,6 +266,7 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
     border-radius: 5px;
     font-size: 0.7rem;
     padding: 4px 7px;
+    color: #fff;
 }
 
 #preload svg path {
