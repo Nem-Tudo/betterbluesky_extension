@@ -252,6 +252,23 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
     padding: 4px 7px;
 }
 
+
+.betterblueskyvideo{
+    max-width: 100%;
+    max-height: 300px;
+    margin: 5px;
+}
+
+#betterblueskyvideobutton{
+    background-color: transparent;
+    border: 1px solid #FF9325;
+    color: #FF9325;
+    border-radius: 7px;
+    padding: 5px 14px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
 #preload svg path{
     fill: #FF9325 !important;
 }
