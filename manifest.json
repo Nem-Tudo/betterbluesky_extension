@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "BetterBluesky - Trends, Videos & more",
-    "version": "2.3",
+    "version": "2.31",
     "description": "Improve your Bluesky experience! Add Trending Topics, Videos, improve design and more!",
     "action": {
         "default_popup": "index.html"
