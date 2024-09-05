@@ -89,6 +89,11 @@
     transition: all 0.2s ease !important;
 }
 
+/*discover / following div color fix*/
+.r-13awgt0{
+    background-color: var(--background-color) !important;
+}
+
 /* .r-1ye8kvj .css-175oi2r[class="css-175oi2r r-1loqt21 r-1otgn73"]:nth-child(1n):hover {
     background-color: #080808 !important;
 } */
