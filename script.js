@@ -20,11 +20,11 @@ function setTheme() {
     if (!storage) return;
 
     const root = document.documentElement;
-    let prefersDarkScheme = false
+    let prefersDarkScheme = false // if the browser does not support the color thingy it is 1:30 am help
     if (window.matchMedia) {
         prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
-
+    
     if (storage.colorMode === "light" || (!prefersDarkScheme && storage.colorMode == "system")) {
 
         root.style.setProperty('--background-color', '#FFFFFF');
