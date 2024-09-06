@@ -1,17 +1,17 @@
 
-//const apiDomain = "https://betterbluesky.nemtudo.me"; //production
-const apiDomain = "http://localhost:3692"; //dev
+const apiDomain = "https://betterbluesky.nemtudo.me"; //production
+// const apiDomain = "http://localhost:3692"; //dev
 let trendsUpdatesCounts = 0;
 
 const sessionID = `${Date.now()}_${randomString(10)}` //gera um ID para fins de uso no backend
 console.log(`[BetterBluesky] SessionID: ${sessionID}`)
 
 function loadBetterbluesky() {
-    const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
-    if (!storage) {
+    if (!localStorage.getItem("BETTERBLUESKY")) {
         localStorage.setItem("BETTERBLUESKY", "{loaded: true}");
         alert("Seja muito bem-vindo ao BetterBluesky! Ajude mais pessoas a conhecerem o nosso trabalho curtindo e repostando o post de onde você nos conheceu! Siga @nemtudo.me para atualizações <3")
     }
+    // const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
 }
 
 function setFavicon() {
@@ -33,12 +33,12 @@ async function updateTrends(replaceAll = false) {
     let html = "";
 
     for (const trend in trends) {
-        html += `<li><a class="trend_item" trend_data="{text: '${encodeURIComponent(trends[trend].text)}', position: ${trend}, count: ${trends[trend].count}}" href='${`https://bsky.app/search?q=${encodeURIComponent(trends[trend].text)}`}'><span class="counter">${Number(trend) + 1}</span>
+        html += `<li><a class="trend_item" trend_data='{"text": "${encodeURIComponent(trends[trend].text)}", "position": ${trend}, "count": ${trends[trend].count}}' href='${`https://bsky.app/search?q=${encodeURIComponent(trends[trend].text)}`}'><span class="counter">${Number(trend) + 1}</span>
                 <div class="content"><span class="trend">${escapeHTML(trends[trend].text)}</span>${trends[trend].count ? `<span>${formatNumber(trends[trend].count)} posts</span>` : ""}</div></a>
             </li>`
     }
 
-    html += `<span class="apoie">Gostou? Apoie o projeto! <a target="_blank" href='https://livepix.gg/nemtudo'>livepix.gg/nemtudo</a></span>`
+    html += `<span class="apoie">Gostou? Apoie o projeto! <a id="apoieurl" target="_blank" href='https://livepix.gg/nemtudo'>livepix.gg/nemtudo</a></span>`
 
     if (document.querySelector("#trendsarea")) replaceAll ? document.querySelector("#trendsarea").innerHTML = html : document.querySelector("#trendsarea").innerHTML += html;
 }
@@ -69,16 +69,23 @@ document.addEventListener('click', (event) => {
     if (event.target.id === "betterblueskyvideobutton") {
         const url = prompt('[BetterBluesky] Insira o link do vídeo. (Deve terminar em .mp4)');
         if (!url) return;
+        sendStats("createpost.videobutton.click", `{"url": "${url}"}`)
         document.querySelector('div[contenteditable="true"]').innerHTML += `&lt;BetterBlueSky_video:${escapeHTML(url)}&gt;`
     }
     if (event.target.classList.contains("trend_item")) {
-        sendStats("trends.click", event.target.getAttribute("trend_data"))
+        sendStats("trends.trend.click", event.target.getAttribute("trend_data"))
+    }
+    if (event.target.id === "apoieurl") {
+        sendStats("trends.apoie.click", "{}")
+    }
+    if (event.target.id === "devcredits") {
+        sendStats("trends.dev.click", "{}")
     }
 })
 
 //funções gerais
 
-function sendStats(event, data){
+function sendStats(event, data) {
     fetch(`${apiDomain}/api/stats?action=${event}&data=${encodeURIComponent(data)}&sessionID=${sessionID}`, { //"action" because "event" cause a bug
         method: "POST"
     })
@@ -113,7 +120,7 @@ function addTrendsHTML() {
     if (element) element.innerHTML = `<div class="trends">
     <h2 id="trendingsname">Trending Topics <span class='beta'>BETA</span></h2>
     <div class='description'>
-    <span>Fornecido por <a style="color: #FF9325;" target="_blank" role="link" href='https://nemtudo.me/betterbluesky'>BetterBluesky</a>.<br> Desenvolvido por <a target="_blank" href='https://bsky.app/profile/nemtudo.me'>@nemtudo.me</a>. Siga!</span>
+    <span>Fornecido por <a style="color: #FF9325;" target="_blank" role="link" href='https://nemtudo.me/betterbluesky'>BetterBluesky</a>.<br> Desenvolvido por <a id="devcredits" target="_blank" href='https://bsky.app/profile/nemtudo.me'>@nemtudo.me</a>. Siga!</span>
     </div>
     <ul id="trendsarea">
     <span class="loadingtrends">Carregando...</span>
@@ -170,6 +177,7 @@ function replaceBetterBlueSkyVideos() {
         // Verifica se a sequência alvo foi digitada
         if (typed === target) {
             if (document.querySelector("#trendingsname")) document.querySelector("#trendingsname").innerHTML = "Trem de Tópicos <span class='beta'>BETA</span>"
+            sendStats("context.easteregg.activated", `{"typed": "${typed}"}`)
         }
     });
 })();
