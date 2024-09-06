@@ -165,6 +165,7 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
     border: 1px solid var(--trends-border-color) !important;
     border-radius: 10px;
     box-sizing: border-box;
+    color: var(--trends-font-color);
 }
 
 .trends a {
