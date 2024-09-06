@@ -83,7 +83,7 @@ document.addEventListener('click', () => {
 //eventos especificos 
 document.addEventListener('click', (event) => {
     if (event.target.id === "betterblueskyvideobutton") {
-        const url = prompt('[BetterBluesky] Insira o link do vídeo. (Deve terminar em .mp4)');
+        const url = getImgurVideoLink(prompt('[BetterBluesky] Insira o link do vídeo. Deve ser um link do imgur.com ou url direta'));
         if (!url) return;
         sendStats("createpost.videobutton.click", `{"url": "${url}"}`)
         document.querySelector('div[contenteditable="true"]').innerHTML += `&lt;BetterBlueSky_video:${escapeHTML(url)}&gt;`
@@ -256,4 +256,17 @@ function getViewingProfile() {
     const url = window.location.href;
     const parts = url.split('/').filter(part => part); // Remove strings vazias
     return parts[parts.length - 1]; // Retorna o último segmento
+}
+
+function getImgurVideoLink(url) {
+    const imgurRegex = /https?:\/\/(?:i\.)?imgur\.com\/([^.\s/]+)(\.\w+)?/;
+    const match = url.match(imgurRegex);
+
+    if (match) {
+        const id = match[1];
+        const extension = match[2] || '.mp4'; // Se não houver extensão, assume que é .mp4
+        return `https://i.imgur.com/${id}${extension}`;
+    }
+
+    return url; // Retorna o link original se não for do imgur
 }
