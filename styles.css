@@ -268,6 +268,24 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
     text-decoration: underline;
 }
 
+.trendmessage{
+    margin-top: 7px;
+    margin-bottom: 5px;
+}
+
+html.theme--light .trends{
+    color: black;
+}
+
+html.theme--light #trendsarea .content .trend, html.theme--light #trendsarea .content .trend, html.theme--light #trendsarea .counter, html.theme--light .trends .apoie{
+    color: black !important;
+}
+
+html.theme--light #trendsarea .trendcount{
+    color: rgba(0, 0, 0, 0.596) !important;
+}
+
+
 .beta {
     background-color: rgb(109, 109, 255);
     border-radius: 5px;
@@ -292,6 +310,18 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
     padding: 5px 14px;
     margin-left: 10px;
     cursor: pointer;
+}
+
+#userlikedbutton{
+    background-color: transparent;
+    color: #FF9325;
+    border: none;
+    padding: 0px;
+    cursor: pointer;
+}
+
+#userlikedbutton:hover{
+    color: #ff8000;
 }
 
 #preload svg path{
