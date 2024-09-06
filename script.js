@@ -20,7 +20,7 @@ function setTheme() {
     if (!storage) return;
 
     const root = document.documentElement;
-    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const prefersDarkScheme = () => window?.matchMedia?.('(prefers-color-scheme:dark)')?.matches ?? false; // the power of lambda experssions
 
     if (storage.colorMode === "light" || (!prefersDarkScheme && storage.colorMode == "system")) {
 
