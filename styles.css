@@ -247,6 +247,11 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
     text-decoration: underline;
 }
 
+.trendmessage{
+    margin-top: 7px;
+    margin-bottom: 5px;
+}
+
 html.theme--light .trends{
     color: black;
 }
@@ -290,6 +295,10 @@ html.theme--light #trendsarea .trendcount{
     border: none;
     padding: 0px;
     cursor: pointer;
+}
+
+#userlikedbutton:hover{
+    color: #ff8000;
 }
 
 #preload svg path{

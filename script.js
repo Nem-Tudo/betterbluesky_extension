@@ -13,8 +13,8 @@ function loadBetterbluesky() {
         localStorage.setItem("BETTERBLUESKY", JSON.stringify({ loaded: true }));
         alert("Seja muito bem-vindo ao BetterBluesky! Ajude mais pessoas a conhecerem o nosso trabalho curtindo e repostando o post de onde você nos conheceu! Siga @nemtudo.me para atualizações <3")
     }
-    
-    if(localStorage.getItem("BETTERBLUESKY") === '{loaded: true}') localStorage.setItem("BETTERBLUESKY", JSON.stringify({ loaded: true })); //convert old version to new
+
+    if (localStorage.getItem("BETTERBLUESKY") === '{loaded: true}') localStorage.setItem("BETTERBLUESKY", JSON.stringify({ loaded: true })); //convert old version to new
 
     const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
     betterblueskystorage = storage;
@@ -41,7 +41,7 @@ async function updateTrends(replaceAll = false) {
 
     for (const trend in trends) {
         html += `<li><a class="trend_item" trend_data='{"text": "${encodeURIComponent(trends[trend].text)}", "position": ${trend}, "count": ${trends[trend].count}}' href='${`https://bsky.app/search?q=${encodeURIComponent(trends[trend].text)}`}'><span class="counter">${Number(trend) + 1}</span>
-                <div class="content"><span class="trend">${escapeHTML(trends[trend].text)}</span>${trends[trend].count ? `<span class="trendcount">${formatNumber(trends[trend].count)} posts</span>` : ""}</div></a>
+                <div class="content"><span class="trend">${escapeHTML(trends[trend].text)}</span>${`${trends[trend].message ? `<span class="trendmessage">${escapeHTML(trends[trend].message)}</span>` : (trends[trend].count ? `<span class="trendcount">${formatNumber(trends[trend].count)} posts</span>` : "")}`}</div></a>
             </li>`
     }
 
@@ -68,7 +68,9 @@ window.addEventListener('load', () => setTimeout(() => { addTrendsHTML() }, 2000
 document.addEventListener('click', () => {
     addTrendsHTML();
     addVideoButton();
-    addLikedTab();
+    setTimeout(() => {
+        addLikedButton();
+    }, 1000)
 })
 
 //eventos especificos 
@@ -80,12 +82,12 @@ document.addEventListener('click', (event) => {
         document.querySelector('div[contenteditable="true"]').innerHTML += `&lt;BetterBlueSky_video:${escapeHTML(url)}&gt;`
     }
 
-    if(event.target.classList.contains("betterbluesky_setting")){
+    if (event.target.classList.contains("betterbluesky_setting")) {
         updateSetting(event.target.getAttribute("betterbluesky_update", e.target.checked))
     }
 
-    if(event.target.id === "userlikedbutton"){
-        sendStats("profile.likedbutton.click", JSON.stringify({user: getViewingProfile()}))
+    if (event.target.id === "userlikedbutton") {
+        sendStats("profile.likedbutton.click", JSON.stringify({ user: getViewingProfile() }))
         window.open(`https://likedbetterbluesky.nemtudo.me/?defaultHandle=${encodeURIComponent(getViewingProfile())}`)
     }
 
@@ -104,8 +106,14 @@ document.addEventListener('click', (event) => {
 
 //funções gerais
 
-function addLikedTab(){
-    if(!document.querySelector('#userlikedbutton')) document.querySelector('div[style="flex-direction: row; gap: 4px; align-items: center;"]').innerHTML += `<button id="userlikedbutton">❤</button>`
+function addLikedButton() {
+    document.querySelectorAll('div[style="flex-direction: row; gap: 4px; align-items: center;"]').forEach(element => {
+        if (element) {
+            if (!element.querySelector('#userlikedbutton')) {
+                element.innerHTML += `<button id="userlikedbutton">❤</button>`
+            }
+        }
+    })
 }
 
 function sendStats(event, data) {
@@ -133,7 +141,6 @@ function escapeHTML(unsafe) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
-
 
 function addTrendsHTML() {
     if (document.querySelector("#trendsarea")) return;
