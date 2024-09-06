@@ -284,6 +284,14 @@ html.theme--light #trendsarea .trendcount{
     cursor: pointer;
 }
 
+#userlikedbutton{
+    background-color: transparent;
+    color: #FF9325;
+    border: none;
+    padding: 0px;
+    cursor: pointer;
+}
+
 #preload svg path{
     fill: #FF9325 !important;
 }

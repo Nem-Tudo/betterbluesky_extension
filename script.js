@@ -6,12 +6,19 @@ let trendsUpdatesCounts = 0;
 const sessionID = `${Date.now()}_${randomString(10)}` //gera um ID para fins de uso no backend
 console.log(`[BetterBluesky] SessionID: ${sessionID}`)
 
+let betterblueskystorage = {};
+
 function loadBetterbluesky() {
     if (!localStorage.getItem("BETTERBLUESKY")) {
-        localStorage.setItem("BETTERBLUESKY", "{loaded: true}");
+        localStorage.setItem("BETTERBLUESKY", JSON.stringify({ loaded: true }));
         alert("Seja muito bem-vindo ao BetterBluesky! Ajude mais pessoas a conhecerem o nosso trabalho curtindo e repostando o post de onde você nos conheceu! Siga @nemtudo.me para atualizações <3")
     }
-    // const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
+    
+    if(localStorage.getItem("BETTERBLUESKY") === '{loaded: true}') localStorage.setItem("BETTERBLUESKY", JSON.stringify({ loaded: true })); //convert old version to new
+
+    const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
+    betterblueskystorage = storage;
+
 }
 
 function setFavicon() {
@@ -47,21 +54,21 @@ setInterval(() => {
     updateTrends(true);
 }, 1000 * 30)
 
+setInterval(() => {
+    replaceBetterBlueSkyVideos()
+}, 1000)
+
 //eventos
 
 window.addEventListener('load', () => setTimeout(() => { loadBetterbluesky(); setFavicon() }, 3000));
 window.addEventListener('load', setFavicon);
-window.addEventListener('load', () => {
-    setInterval(() => {
-        replaceBetterBlueSkyVideos()
-    }, 1000)
-});
 window.addEventListener('load', () => setTimeout(() => { addTrendsHTML() }, 2000));
 
 //atualizador de eventos
 document.addEventListener('click', () => {
     addTrendsHTML();
     addVideoButton();
+    addLikedTab();
 })
 
 //eventos especificos 
@@ -72,6 +79,18 @@ document.addEventListener('click', (event) => {
         sendStats("createpost.videobutton.click", `{"url": "${url}"}`)
         document.querySelector('div[contenteditable="true"]').innerHTML += `&lt;BetterBlueSky_video:${escapeHTML(url)}&gt;`
     }
+
+    if(event.target.classList.contains("betterbluesky_setting")){
+        updateSetting(event.target.getAttribute("betterbluesky_update", e.target.checked))
+    }
+
+    if(event.target.id === "userlikedbutton"){
+        sendStats("profile.likedbutton.click", JSON.stringify({user: getViewingProfile()}))
+        window.open(`https://likedbetterbluesky.nemtudo.me/?defaultHandle=${encodeURIComponent(getViewingProfile())}`)
+    }
+
+    //stats
+
     if (event.target.classList.contains("trend_item")) {
         sendStats("trends.trend.click", event.target.getAttribute("trend_data"))
     }
@@ -84,6 +103,10 @@ document.addEventListener('click', (event) => {
 })
 
 //funções gerais
+
+function addLikedTab(){
+    if(!document.querySelector('#userlikedbutton')) document.querySelector('div[style="flex-direction: row; gap: 4px; align-items: center;"]').innerHTML += `<button id="userlikedbutton">❤</button>`
+}
 
 function sendStats(event, data) {
     fetch(`${apiDomain}/api/stats?action=${event}&data=${encodeURIComponent(data)}&sessionID=${sessionID}`, { //"action" because "event" cause a bug
@@ -203,4 +226,20 @@ function randomString(length) {
         counter += 1;
     }
     return result;
+}
+
+function updateSetting(setting, value) {
+    const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
+
+    storage[setting] = value;
+
+    localStorage.setItem("BETTERBLUESKY", JSON.stringify(storage));
+
+    betterblueskystorage = storage;
+}
+
+function getViewingProfile() {
+    const url = window.location.href;
+    const parts = url.split('/').filter(part => part); // Remove strings vazias
+    return parts[parts.length - 1]; // Retorna o último segmento
 }
