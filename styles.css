@@ -90,7 +90,7 @@
 }
 
 /*discover / following div color fix*/
-.r-1ipicw7{
+div[class="css-175oi2r r-13awgt0 r-1rnoaur r-1la3zjv r-3o4zer r-1ipicw7"]{
     background-color: var(--background-color) !important;
 }
 
@@ -134,7 +134,6 @@ div[class="css-175oi2r r-1awozwy r-1llaxt6 r-13awgt0 r-18u37iz r-11f147o r-3o4ze
 }
 
 /* trends */
-
 
 .trends ul::-webkit-scrollbar {
     width: 5px;
@@ -277,6 +276,8 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
     color: #fff;
 }
 
+/* video */
+
 .betterblueskyvideo{
     max-width: 100%;
     max-height: 300px;
@@ -300,4 +301,50 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
 #preload svg::after {
     content: 'BetterBluesky by @nemtudo.me' !important;
     color: #FF9325 !important;
+}
+
+/* Silly button hover colors by flaf :3 */
+
+[data-testid="replyBtn"]:hover {
+    background-color: rgba(0, 123, 255, 0.2) !important;
+    transition: background-color 0.2s ease !important;
+}
+
+[data-testid="replyBtn"]:hover svg path,
+[data-testid="replyBtn"]:hover .css-146c3p1 {
+    color: #007bff !important;
+    fill: #007bff !important;
+    transition: color 0.2s ease, fill 0.2s ease !important;
+}
+
+div[id^="radix-"]:not([data-testid]):hover {
+    background-color: rgba(40, 167, 69, 0.2) !important;
+    transition: background-color 0.2s ease !important;
+}
+
+div[id^="radix-"]:not([data-testid]):hover svg path,
+div[id^="radix-"]:not([data-testid]):hover .css-146c3p1 {
+    color: #28a745 !important; 
+    fill: #28a745 !important;
+    transition: color 0.2s ease, fill 0.2s ease !important;
+}
+
+[data-testid="likeBtn"]:hover {
+    background-color: rgba(236, 72, 153, 0.2) !important;
+    transition: background-color 0.2s ease !important;
+}
+
+[data-testid="likeBtn"]:hover svg path, 
+[data-testid="likeBtn"]:hover .css-146c3p1 {
+    color: #ec4899 !important;
+    fill: #ec4899 !important;
+    transition: color 0.2s ease, fill 0.2s ease !important;
+}
+
+/* fixes dumb menu changing color */
+div[id^="radix-"] div[data-radix-popper-content-wrapper] * {
+    background-color: inherit !important;
+    color: inherit !important;
+    fill: inherit !important;
+    transition: none !important;
 }
