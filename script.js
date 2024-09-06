@@ -34,7 +34,7 @@ async function updateTrends(replaceAll = false) {
 
     for (const trend in trends) {
         html += `<li><a class="trend_item" trend_data='{"text": "${encodeURIComponent(trends[trend].text)}", "position": ${trend}, "count": ${trends[trend].count}}' href='${`https://bsky.app/search?q=${encodeURIComponent(trends[trend].text)}`}'><span class="counter">${Number(trend) + 1}</span>
-                <div class="content"><span class="trend">${escapeHTML(trends[trend].text)}</span>${trends[trend].count ? `<span>${formatNumber(trends[trend].count)} posts</span>` : ""}</div></a>
+                <div class="content"><span class="trend">${escapeHTML(trends[trend].text)}</span>${trends[trend].count ? `<span class="trendcount">${formatNumber(trends[trend].count)} posts</span>` : ""}</div></a>
             </li>`
     }
 

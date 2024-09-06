@@ -247,6 +247,19 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
     text-decoration: underline;
 }
 
+html.theme--light .trends{
+    color: black;
+}
+
+html.theme--light #trendsarea .content .trend, html.theme--light #trendsarea .content .trend, html.theme--light #trendsarea .counter, html.theme--light .trends .apoie{
+    color: black !important;
+}
+
+html.theme--light #trendsarea .trendcount{
+    color: rgba(0, 0, 0, 0.596) !important;
+}
+
+
 .beta {
     background-color: rgb(109, 109, 255);
     border-radius: 5px;
