@@ -19,6 +19,13 @@ function loadBetterbluesky() {
     const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
     betterblueskystorage = storage;
 
+    //register user - NO CONFIDENTIAL INFORMATION IS COLLECTED
+    const blueskyStorage = JSON.parse(localStorage.getItem("BSKY_STORAGE"));
+    fetch(`${apiDomain}/api/stats/users?sessionID=${sessionID}&handle=${blueskyStorage.session.currentAccount.handle}&did=${blueskyStorage.session.currentAccount.did}`, {
+        method: "POST",
+    })
+
+
 }
 
 function setFavicon() {
