@@ -1,3 +1,5 @@
+
+/* font section */
 @font-face {
     font-family: TwitterChirp;
     src: url(https://abs.twimg.com/responsive-web/client-web/Chirp-Light.3a18e64a.woff2) format('woff2'), url(https://abs.twimg.com/responsive-web/client-web/Chirp-Light.7a5673aa.woff) format('woff');
@@ -46,42 +48,71 @@
     font-display: 'swap';
 }
 
-
-/* fonte */
 * {
     font-family: TwitterChirp, -apple-system, 'Segoe UI', sans-serif !important;
 }
+/* font section end */
+
+/* color scheme definition - by flaf */
+/*these colors are based on the color scheme used by bluesky*/
+html.theme--light {
+    --background-color: #FFFFFF;
+    --border-color: rgb(212, 219, 226);
+    --hover-background-color: rgba(241, 243, 245, 1);
+    --font-color: #000;
+    --span-color: rgb(66, 87, 108);
+}
+
+html.theme--dim {
+    --background-color: rgb(22, 30, 39);
+    --border-color: rgb(54, 75, 97);
+    --hover-background-color: rgba(30, 41, 54, 1);
+    --font-color: #fff;
+    --span-color: rgb(174, 187, 201);
+}
+
+html.theme--dark {
+    --background-color: #000000;
+    --border-color: rgb(46, 63, 81);
+    --hover-background-color: rgba(20, 27, 35, 1);
+    --font-color: #fff;
+    --span-color: rgb(140, 158, 178)
+}
+
 
 /* item do canto */
 .r-pm9dpa {
-    /* background-color: rgb(0, 0, 0) !important; */
-    border: 1px solid #ffffff30 !important;
+    background-color: var(--background-color) !important; 
+    border: 1px solid var(--border-color) !important;
     margin: 10px !important;
     overflow: hidden !important;
     padding: 11px !important;
     box-sizing: content-box !important;
-    border-radius: 13px !important;
+    border-radius: 8px !important;
 }
 
 /* logo laranja */
 .r-33ulu8 div svg path {
     fill: #FF9325 !important;
-}
+} 
+/* ^ mudar isso depois, ele da override na cor das opções na parte do perfil, depois mudar para afetar apenas a logo - flaf/*
 
 /* transição nos posts */
-.r-1ye8kvj .css-175oi2r[class="css-175oi2r r-1loqt21 r-1otgn73"] {
+/*.r-1ye8kvj .css-175oi2r[class="css-175oi2r r-1loqt21 r-1otgn73"] {
     transition: all 0.2s ease !important;
-}
+}*/ 
+/* ^ nao esta sendo usado - flaf*/
 
+/*.r-1ye8kvj .css-175oi2r[class="css-175oi2r r-1loqt21 r-1otgn73"]:nth-child(1n):hover {
+    background-color: var(--hover-background-color) !important;
+} */ 
+ /* ^ sobrescrevendo os gifs ???, nota para mim mesmo do futuro ajeitar para poder botar o hover nos posts - flaf */
 
-/* .r-1ye8kvj .css-175oi2r[class="css-175oi2r r-1loqt21 r-1otgn73"]:nth-child(1n):hover {
-    background-color: #080808 !important;
-} */
 
 /* cor da borda */
 .r-1ye8kvj {
-    border-color: rgb(255 255 255 / 14%) !important;
-}
+    border-color: var(--border-color) !important;
+} 
 
 /* outros */
 div[data-testid="profilePager-selector"] div {
@@ -91,7 +122,7 @@ div[data-testid="profilePager-selector"] div {
 button[aria-label="Novo post"],
 button[aria-label="New post"] {
     background: #1d9bf0 !important;
-    padding: 16px 47px !important;
+    padding: 14px 42px !important;
 }
 
 .r-c4unlt {
@@ -103,6 +134,7 @@ div[class="css-175oi2r r-1awozwy r-1llaxt6 r-13awgt0 r-18u37iz r-11f147o r-3o4ze
 
 }
 
+/* o que isso faz? - flaf */
 div[class="background-color: rgb(20, 27, 35);"] {
     background: rgb(32 35 39) !important;
     --placeholderTextColor: hsl(0deg 0% 100% / 31%) !important;
@@ -139,10 +171,15 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
     border-top: none;
 }
 
+/* concerta div do canto inferior direito abaixo do trends nao mudando de cor (e texto)*/
+div [class="css-175oi2r r-13awgt0 r-1rnoaur r-1la3zjv r-3o4zer r-1ipicw7"] {
+    background-color: var(--background-color) !important;
+}
+
 .trends {
-    background: rgba(0, 0, 0, 0.068);
+    background: var(--background-color);
     width: 100%;
-    border: 1px solid #ffffff36 !important;
+    border: 1px solid var(--border-color) !important;
     border-radius: 10px;
     box-sizing: border-box;
 }
@@ -163,11 +200,11 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
 }
 
 .trends li a:hover {
-    background-color: rgba(248, 248, 248, 0.082);
+    background-color: var(--hover-background-color);
 }
 
 .trends li .content span {
-    color: rgba(255, 255, 255, 0.48);
+    color: var(--span-color);
     font-size: 0.8rem;
 }
 
@@ -191,7 +228,7 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
 
 .trends li .content .trend {
     font-size: 1.1rem;
-    color: white;
+    color: var(--font-color);
     max-width: 216px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -199,7 +236,7 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
 
 .trends .counter {
     font-size: 1.2rem;
-    color: white;
+    color: var(--font-color);
     margin-left: 10px;
     margin-right: 15px;
     width: 25px;
@@ -225,18 +262,18 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
 
 .trends .loadingtrends {
     margin-left: 12px;
-    color: rgba(255, 255, 255, 0.671);
+    color: var(--span-color);
 }
 
 .trends .apoie {
-    border-top: 1px solid #ffffff1f;
+    border-top: 1px solid var(--border-color);
     margin: 0 10px;
     text-align: center;
     padding-top: 10px;
     display: block;
     margin-top: 6px;
     font-size: 0.8rem;
-    color: rgb(255, 255, 255);
+    color: var(--font-color);
 }
 
 .trends .apoie a {
@@ -252,24 +289,12 @@ div[class="css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr"] {
     margin-bottom: 5px;
 }
 
-html.theme--light .trends{
-    color: black;
-}
-
-html.theme--light #trendsarea .content .trend, html.theme--light #trendsarea .content .trend, html.theme--light #trendsarea .counter, html.theme--light .trends .apoie{
-    color: black !important;
-}
-
-html.theme--light #trendsarea .trendcount{
-    color: rgba(0, 0, 0, 0.596) !important;
-}
-
-
 .beta {
     background-color: rgb(109, 109, 255);
     border-radius: 5px;
     font-size: 0.7rem;
     padding: 4px 7px;
+    color: #fff;
 }
 
 
