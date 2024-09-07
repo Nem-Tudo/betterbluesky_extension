@@ -309,3 +309,49 @@ html.theme--light #trendsarea .trendcount{
     content: 'BetterBluesky by @nemtudo.me' !important;
     color: #FF9325 !important;
 }
+
+/* Silly button hover colors by flaf :3 */
+
+[data-testid="replyBtn"]:hover {
+    background-color: rgba(0, 123, 255, 0.2) !important;
+    transition: background-color 0.2s ease !important;
+}
+
+[data-testid="replyBtn"]:hover svg path,
+[data-testid="replyBtn"]:hover .css-146c3p1 {
+    color: #007bff !important;
+    fill: #007bff !important;
+    transition: color 0.2s ease, fill 0.2s ease !important;
+}
+
+div[id^="radix-"]:not([data-testid]):hover {
+    background-color: rgba(40, 167, 69, 0.2) !important;
+    transition: background-color 0.2s ease !important;
+}
+
+div[id^="radix-"]:not([data-testid]):hover svg path,
+div[id^="radix-"]:not([data-testid]):hover .css-146c3p1 {
+    color: #28a745 !important; 
+    fill: #28a745 !important;
+    transition: color 0.2s ease, fill 0.2s ease !important;
+}
+
+[data-testid="likeBtn"]:hover {
+    background-color: rgba(236, 72, 153, 0.2) !important;
+    transition: background-color 0.2s ease !important;
+}
+
+[data-testid="likeBtn"]:hover svg path, 
+[data-testid="likeBtn"]:hover .css-146c3p1 {
+    color: #ec4899 !important;
+    fill: #ec4899 !important;
+    transition: color 0.2s ease, fill 0.2s ease !important;
+}
+
+/* fixes dumb menu changing color */
+div[id^="radix-"] div[data-radix-popper-content-wrapper] * {
+    background-color: inherit !important;
+    color: inherit !important;
+    fill: inherit !important;
+    transition: none !important;
+}
