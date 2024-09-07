@@ -53,6 +53,7 @@ async function updateTrends(replaceAll = false) {
     }
 
     html += `<span class="apoie">Gostou? Apoie o projeto! <a id="apoieurl" target="_blank" href='https://livepix.gg/nemtudo'>livepix.gg/nemtudo</a></span>`
+    html += `<span class="sourcecode">Código fonte: <a id="sourcecode" target="_blank" href='https://bsky.app/profile/nemtudo.me/post/3l3dwh7m4bj27'>acessar</a></span>`
 
     if (document.querySelector("#trendsarea")) replaceAll ? document.querySelector("#trendsarea").innerHTML = html : document.querySelector("#trendsarea").innerHTML += html;
 }
@@ -259,6 +260,7 @@ function getViewingProfile() {
 }
 
 function getImgurVideoLink(url) {
+    if(!url) return null;
     const imgurRegex = /https?:\/\/(?:i\.)?imgur\.com\/([^.\s/]+)(\.\w+)?/;
     const match = url.match(imgurRegex);
 
