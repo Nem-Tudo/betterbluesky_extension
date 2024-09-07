@@ -1,4 +1,3 @@
-
 /* font section */
 @font-face {
     font-family: TwitterChirp;
@@ -51,12 +50,14 @@
 * {
     font-family: TwitterChirp, -apple-system, 'Segoe UI', sans-serif !important;
 }
+
 /* font section end */
 
 /* color scheme definition - by flaf */
 /*these colors are based on the color scheme used by bluesky*/
 html.theme--light {
     --background-color: #FFFFFF;
+    --trends-background-color: #ffffff;
     --border-color: rgb(212, 219, 226);
     --hover-background-color: rgba(241, 243, 245, 1);
     --font-color: #000;
@@ -65,7 +66,8 @@ html.theme--light {
 
 html.theme--dim {
     --background-color: rgb(22, 30, 39);
-    --border-color: rgb(54, 75, 97);
+    --trends-background-color: #00000009;
+    --border-color: rgba(255, 255, 255, 0.14);
     --hover-background-color: rgba(30, 41, 54, 1);
     --font-color: #fff;
     --span-color: rgb(174, 187, 201);
@@ -73,7 +75,8 @@ html.theme--dim {
 
 html.theme--dark {
     --background-color: #000000;
-    --border-color: rgb(46, 63, 81);
+    --trends-background-color: #000000;
+    --border-color: rgba(255, 255, 255, 0.14);
     --hover-background-color: rgba(20, 27, 35, 1);
     --font-color: #fff;
     --span-color: rgb(140, 158, 178)
@@ -82,7 +85,7 @@ html.theme--dark {
 
 /* item do canto */
 .r-pm9dpa {
-    background-color: var(--background-color) !important; 
+    background-color: var(--background-color) !important;
     border: 1px solid var(--border-color) !important;
     margin: 10px !important;
     overflow: hidden !important;
@@ -94,25 +97,26 @@ html.theme--dark {
 /* logo laranja */
 .r-33ulu8 div svg path {
     fill: #FF9325 !important;
-} 
+}
+
 /* ^ mudar isso depois, ele da override na cor das opções na parte do perfil, depois mudar para afetar apenas a logo - flaf/*
 
 /* transição nos posts */
 /*.r-1ye8kvj .css-175oi2r[class="css-175oi2r r-1loqt21 r-1otgn73"] {
     transition: all 0.2s ease !important;
-}*/ 
+}*/
 /* ^ nao esta sendo usado - flaf*/
 
 /*.r-1ye8kvj .css-175oi2r[class="css-175oi2r r-1loqt21 r-1otgn73"]:nth-child(1n):hover {
     background-color: var(--hover-background-color) !important;
-} */ 
- /* ^ sobrescrevendo os gifs ???, nota para mim mesmo do futuro ajeitar para poder botar o hover nos posts - flaf */
+} */
+/* ^ sobrescrevendo os gifs ???, nota para mim mesmo do futuro ajeitar para poder botar o hover nos posts - flaf */
 
 
 /* cor da borda */
 .r-1ye8kvj {
     border-color: var(--border-color) !important;
-} 
+}
 
 /* outros */
 div[data-testid="profilePager-selector"] div {
@@ -177,14 +181,15 @@ div [class="css-175oi2r r-13awgt0 r-1rnoaur r-1la3zjv r-3o4zer r-1ipicw7"] {
 }
 
 .trends {
-    background: var(--background-color);
+    background: var(--trends-background-color);
     width: 100%;
     border: 1px solid var(--border-color) !important;
     border-radius: 10px;
     box-sizing: border-box;
+    color: var(--font-color) !important;
 }
 
-.trends a{
+.trends a {
     cursor: pointer !important;
 }
 
@@ -268,7 +273,7 @@ div [class="css-175oi2r r-13awgt0 r-1rnoaur r-1la3zjv r-3o4zer r-1ipicw7"] {
 .trends .apoie {
     border-top: 1px solid var(--border-color);
     margin: 0 10px;
-    text-align: center;
+    text-align: left;
     padding-top: 10px;
     display: block;
     margin-top: 6px;
@@ -284,7 +289,25 @@ div [class="css-175oi2r r-13awgt0 r-1rnoaur r-1la3zjv r-3o4zer r-1ipicw7"] {
     text-decoration: underline;
 }
 
-.trendmessage{
+.trends .sourcecode {
+    margin: 0 10px;
+    text-align: left;
+    padding-top: 10px;
+    display: block;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    color: var(--font-color);
+}
+
+.trends .sourcecode a {
+    color: #FF9325;
+}
+
+.trends .sourcecode a:hover {
+    text-decoration: underline;
+}
+
+.trendmessage {
     margin-top: 7px;
     margin-bottom: 5px;
 }
@@ -298,13 +321,13 @@ div [class="css-175oi2r r-13awgt0 r-1rnoaur r-1la3zjv r-3o4zer r-1ipicw7"] {
 }
 
 
-.betterblueskyvideo{
+.betterblueskyvideo {
     max-width: 100%;
     max-height: 300px;
     margin: 5px;
 }
 
-#betterblueskyvideobutton{
+#betterblueskyvideobutton {
     background-color: transparent;
     border: 1px solid #FF9325;
     color: #FF9325;
@@ -314,7 +337,7 @@ div [class="css-175oi2r r-13awgt0 r-1rnoaur r-1la3zjv r-3o4zer r-1ipicw7"] {
     cursor: pointer;
 }
 
-#userlikedbutton{
+#userlikedbutton {
     background-color: transparent;
     color: #FF9325;
     border: none;
@@ -322,15 +345,15 @@ div [class="css-175oi2r r-13awgt0 r-1rnoaur r-1la3zjv r-3o4zer r-1ipicw7"] {
     cursor: pointer;
 }
 
-#userlikedbutton:hover{
+#userlikedbutton:hover {
     color: #ff8000;
 }
 
-#preload svg path{
+#preload svg path {
     fill: #FF9325 !important;
 }
 
-#preload svg::after{
+#preload svg::after {
     content: 'BetterBluesky by @nemtudo.me' !important;
     color: #FF9325 !important;
 }
@@ -357,7 +380,7 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover {
 
 div[id^="radix-"]:not([data-radix-menu-content]):hover svg path,
 div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
-    color: #28a745 !important; 
+    color: #28a745 !important;
     fill: #28a745 !important;
     transition: color 0.2s ease, fill 0.2s ease !important;
 }
@@ -367,7 +390,7 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
     transition: background-color 0.2s ease !important;
 }
 
-[data-testid="likeBtn"]:hover svg path, 
+[data-testid="likeBtn"]:hover svg path,
 [data-testid="likeBtn"]:hover .css-146c3p1 {
     color: #ec4899 !important;
     fill: #ec4899 !important;
