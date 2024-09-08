@@ -327,7 +327,8 @@ div [class="css-175oi2r r-13awgt0 r-1rnoaur r-1la3zjv r-3o4zer r-1ipicw7"] {
     margin: 5px;
 }
 
-#betterblueskyvideobutton {
+#betterblueskyvideobutton,
+.refresh-page {
     background-color: transparent;
     border: 1px solid #FF9325;
     color: #FF9325;
@@ -460,7 +461,9 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
 
 .pugbox {
     grid-column: 2;
-    zoom: 5;
+    -webkit-transform: scale(0.7);
+    -ms-transform: scale(0.7);
+    transform: scale(0.7);
 }
 
 @media (max-width: 1300px) {
