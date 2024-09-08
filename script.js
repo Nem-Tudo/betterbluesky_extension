@@ -122,7 +122,9 @@ setInterval(() => {
 }, 1000 * 30)
 
 setInterval(() => {
-    replaceBetterBlueSkyVideos()
+    if (betterblueskystorage.videos == true) {
+        replaceBetterBlueSkyVideos();
+    }
 }, 1000)
 
 //eventos
@@ -230,7 +232,7 @@ function escapeHTML(unsafe) {
 }
 
 function addTrendsHTML() {
-    if (betterblueskystorage.trendingTopics == false) return; // Não executar conforme prefêrencia do usuário
+    if (betterblueskystorage.trendingTopics == false) return; // Respect user preference
     if (document.querySelector("#trendsarea")) return;
 
     const element = document.querySelector("div[class='css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr']") || document.querySelector('div[class="css-175oi2r r-196lrry r-pm9dpa r-1rnoaur r-1xcajam r-1ipicw7"]')
