@@ -6,15 +6,19 @@ let trendsUpdatesCounts = 0;
 const sessionID = `${Date.now()}_${randomString(10)}` //gera um ID para fins de uso no backend
 console.log(`[BetterBluesky] SessionID: ${sessionID}`)
 
-let betterblueskystorage = {};
+let betterblueskystorage = JSON.parse(localStorage.getItem("BETTERBLUESKY")) || {};
+window.betterblueskystorage = betterblueskystorage;
 
 function loadBetterbluesky() {
+
+    const defaultConfig = { loaded: true, trendingTopics: true, telemetry: true, videos: true, likes: true, polls: true, easter_egg_tremdetopicos: false };
+
     if (!localStorage.getItem("BETTERBLUESKY")) {
-        localStorage.setItem("BETTERBLUESKY", JSON.stringify({ loaded: true, trendingTopics: true, telemetry: true, videos: true, likes: true }));
+        localStorage.setItem("BETTERBLUESKY", JSON.stringify(defaultConfig));
         alert("Seja muito bem-vindo ao BetterBluesky! Ajude mais pessoas a conhecerem o nosso trabalho curtindo e repostando o post de onde você nos conheceu! Siga @nemtudo.me para atualizações <3")
     }
 
-    if (localStorage.getItem("BETTERBLUESKY") === '{loaded: true}') localStorage.setItem("BETTERBLUESKY", JSON.stringify({ loaded: true, trendingTopics: true, telemetry: true, videos: true, likes: true })); //convert old version to new
+    if (localStorage.getItem("BETTERBLUESKY") === '{loaded: true}') localStorage.setItem("BETTERBLUESKY", JSON.stringify(defaultConfig)); //convert old version to new
 
     const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
     betterblueskystorage = storage;
@@ -63,13 +67,19 @@ function updateCheckBoxes() {
     }
 }
 
-function updatePreferences(preference) {
+function updatePreferences(preference, value) {
     function updateStorage() {
         betterblueskystorage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
     }
 
     const object = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
-    object[preference] = !object[preference];
+    
+    if(typeof value != "undefined"){
+        object[preference] = value;
+    } else {
+        object[preference] = !object[preference];
+    }
+    
     localStorage.setItem("BETTERBLUESKY", JSON.stringify(object));
 
     updateStorage();
@@ -114,8 +124,8 @@ function settingsPopup() {
                         <p class="preference-text">User Likes</p>
                         <input type="checkbox" id="preferences" class="pugbox" name="likes" />
 
-                        <p class="preference-text">Estatísticas</p>
-                        <input type="checkbox" id="preferences" class="pugbox" name="telemetry" />
+                        <p class="preference-text">Enquetes</p>
+                        <input type="checkbox" id="preferences" class="pugbox" name="polls" />
 
                         <button id="refresh-btn" class="refresh-page">Refresh ✨</button>
                     </div>
@@ -137,7 +147,7 @@ setInterval(() => {
 
 window.addEventListener('load', () => setTimeout(() => { loadBetterbluesky(); setFavicon() }, 3000));
 window.addEventListener('load', setFavicon);
-window.addEventListener('load', () => setTimeout(() => { addSettingsButton(); }, 4000));
+window.addEventListener('load', () => setTimeout(() => { addSettingsButton(); }, 2000));
 window.addEventListener('load', () => setTimeout(() => { addTrendsHTML(); }, 3200));
 
 //atualizador de eventos
@@ -287,7 +297,7 @@ function addTrendsHTML() {
     const element = document.querySelector("div[class='css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr']") || document.querySelector('div[class="css-175oi2r r-196lrry r-pm9dpa r-1rnoaur r-1xcajam r-1ipicw7"]')
 
     if (element) element.innerHTML = `<div class="trends">
-    <h2 id="trendingsname">Trending Topics <span class='beta'>BETA</span></h2>
+    <h2 id="trendingsname">${betterblueskystorage.easter_egg_tremdetopicos ? "Trem de tópicos" : "Trending Topics"} <span class='beta'>BETA</span></h2>
     <div class='description'>
     <span>Fornecido por <a style="color: #FF9325;" target="_blank" role="link" href='https://nemtudo.me/betterbluesky'>BetterBluesky</a>.<br> Desenvolvido por <a id="devcredits" target="_blank" href='https://bsky.app/profile/nemtudo.me'>@nemtudo.me</a>. Siga!</span>
     </div>
@@ -309,6 +319,7 @@ function addVideoButton() {
 }
 
 function addPollButton() {
+    if (betterblueskystorage.polls == false) return; // Respect user preference
     // dark
     if ((!document.querySelector("#betterblueskypollbutton")) && (document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(0, 0, 0); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]'))) document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(0, 0, 0); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]').innerHTML += `<button id='betterblueskypollbutton'>Enquete</button>` //+ document.querySelector("div[class='css-175oi2r r-1awozwy r-5kkj8d r-18u37iz r-cnw61z r-16lhzmz r-i023vh']").innerHTML;
     // menos dark
@@ -348,7 +359,7 @@ function replaceBetterBlueSkyVideos() {
     pageContents.forEach(element => {
         // Substitui pelo elemento de vídeo
         if (!element.innerHTML.match(regex)) return;
-        const html = element.innerHTML.replace(regex, function(match, url) {
+        const html = element.innerHTML.replace(regex, function (match, url) {
             if (!validURL(url)) return;
             const videoElement = `<video class="betterblueskyvideo" controls>
                     <source src="${escapeHTML(url)}" type="video/mp4">
@@ -363,6 +374,7 @@ function replaceBetterBlueSkyVideos() {
 
 }
 async function replaceBetterBlueSkyPolls() {
+    if (betterblueskystorage.polls == false) return; // Respect user preference
     // Seleciona todo o conteúdo da página
     const pageContents = document.querySelectorAll('div[class="css-146c3p1 r-1xnzce8"],div[data-testid="contentHider-post"]');
 
@@ -464,12 +476,12 @@ async function votePoll(pollID, option) {
 }
 
 
-(function() { //easter egg trem de tópicos
+(function () { //easter egg trem de tópicos
     let typed = ""; // String para armazenar as teclas pressionadas
     const target = "tremdetopicos"; // A sequência que você quer detectar
     const maxLength = target.length; // Tamanho da sequência alvo
 
-    document.addEventListener("keydown", function(event) {
+    document.addEventListener("keydown", function (event) {
         if (betterblueskystorage.trendingTopics == false) return; // There is no point for this easter egg if trending topics are disabled.
         // Adiciona a tecla pressionada à string
         typed += event.key.toLowerCase(); // Converte para minúscula para comparação
@@ -481,8 +493,15 @@ async function votePoll(pollID, option) {
 
         // Verifica se a sequência alvo foi digitada
         if (typed === target) {
-            if (document.querySelector("#trendingsname")) document.querySelector("#trendingsname").innerHTML = "Trem de Tópicos <span class='beta'>BETA</span>"
-            sendStats("context.easteregg.activated", `{"typed": "${typed}"}`)
+            if (!betterblueskystorage.easter_egg_tremdetopicos) {
+                if (document.querySelector("#trendingsname")) document.querySelector("#trendingsname").innerHTML = "Trem de Tópicos <span class='beta'>BETA</span>"
+                sendStats("context.easteregg.activated", `{"typed": "${typed}"}`)
+                updatePreferences("easter_egg_tremdetopicos", true)
+            } else {
+                if (document.querySelector("#trendingsname")) document.querySelector("#trendingsname").innerHTML = "Trending Topics <span class='beta'>BETA</span>"
+                sendStats("context.easteregg.disabled", `{"typed": "${typed}"}`)
+                updatePreferences("easter_egg_tremdetopicos", false)
+            }
         }
     });
 })();
