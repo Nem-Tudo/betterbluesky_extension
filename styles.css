@@ -322,6 +322,7 @@ div [class="css-175oi2r r-13awgt0 r-1rnoaur r-1la3zjv r-3o4zer r-1ipicw7"] {
 .trendmessage {
     margin-top: 7px;
     margin-bottom: 5px;
+    max-width: 220px;
 }
 
 .beta {
