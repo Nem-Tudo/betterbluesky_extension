@@ -62,6 +62,10 @@ html.theme--light {
     --hover-background-color: rgba(241, 243, 245, 1);
     --font-color: #000;
     --span-color: rgb(66, 87, 108);
+
+    --poll-background-color: #00000005;
+    --poll-border-color: #828282;
+    --poll-text-color: black;
 }
 
 html.theme--dim {
@@ -71,6 +75,10 @@ html.theme--dim {
     --hover-background-color: rgba(30, 41, 54, 1);
     --font-color: #fff;
     --span-color: rgb(174, 187, 201);
+
+    --poll-background-color: #ffffff08;
+    --poll-border-color: #fcfcfc2e;
+    --poll-text-color: rgb(255, 255, 255);
 }
 
 html.theme--dark {
@@ -79,7 +87,11 @@ html.theme--dark {
     --border-color: rgba(255, 255, 255, 0.14);
     --hover-background-color: rgba(20, 27, 35, 1);
     --font-color: #fff;
-    --span-color: rgb(140, 158, 178)
+    --span-color: rgb(140, 158, 178);
+    
+    --poll-background-color: rgba(255, 255, 255, 0.089);
+    --poll-border-color: #ffffff00;
+    --poll-text-color: rgb(255, 255, 255);
 }
 
 
@@ -335,7 +347,33 @@ div [class="css-175oi2r r-13awgt0 r-1rnoaur r-1la3zjv r-3o4zer r-1ipicw7"] {
     padding: 5px 14px;
     margin-left: 10px;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
+
+#betterblueskyvideobutton:hover{
+    background-color: #FF9325;
+    color: black;
+}
+
+
+#betterblueskypollbutton {
+    background-color: transparent;
+    border: 1px solid #FF9325;
+    color: #FF9325;
+    border-radius: 7px;
+    padding: 5px 14px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+
+#betterblueskypollbutton:hover{
+    background-color: #FF9325;
+    color: black;
+}
+
+
 
 #userlikedbutton {
     background-color: transparent;
@@ -395,4 +433,113 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
     color: #ec4899 !important;
     fill: #ec4899 !important;
     transition: color 0.2s ease, fill 0.2s ease !important;
+}
+
+
+/* polls */
+
+.betterbluesky_poll{
+    background-color: var(--poll-background-color);
+    color: var(--poll-text-color);
+    border: 1px solid var(--poll-border-color);
+    width: fit-content;
+    padding: 20px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.betterbluesky_poll .betterbluesky_poll_title{
+    margin-bottom: 20px;
+}
+
+.betterbluesky_poll .betterbluesky_poll_options{
+    display: flex;
+    flex-direction: column;
+}
+
+.betterbluesky_poll .betterbluesky_poll_options .betterbluesky_poll_option{
+    margin-top: 10px;
+    background-color: transparent;
+    border: 1px solid #6e70fd;
+    padding: 10px 20px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.betterbluesky_poll_option_text{
+    margin-right: 10px;
+    pointer-events: none;
+    color: var(--poll-text-color);
+}
+
+.betterbluesky_poll .betterbluesky_poll_options .betterbluesky_poll_option[option_selected="true"]{
+    background-color: #6e70fd;
+}
+
+.betterbluesky_poll[voted="false"] .betterbluesky_poll_options .betterbluesky_poll_option:hover{
+    background-color: #6e70fd;
+}
+
+.betterbluesky_poll_option[option_selected="true"] .betterbluesky_poll_option_votedicon, .betterbluesky_poll[voted="true"] .betterbluesky_poll_votecount{
+    display: block;
+}
+
+.betterbluesky_poll_option_votedicon{
+    width: 15px;
+    filter: invert();
+    display: none;
+    margin-right: 10px;
+}
+
+.betterbluesky_poll_votecount{
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.685);
+    display: none;
+}
+
+.betterbluesky_pollnotfound{
+    background-color: var(--poll-background-color);
+    border: 1px solid var(--poll-border-color);
+    padding: 10px;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    color: var(--poll-text-color);
+}
+
+.betterbluesky_pollnotfound_description{
+    font-size: 0.8rem;
+}
+
+.betterbluesky_pollnotfound a{
+    text-decoration: none;
+    color: #FF9325;
+}
+
+.betterbluesky_pollnotfound a:hover{
+    text-decoration: underline;
+}
+
+.betterbluesky_poll_bybetterbluesky{
+    font-size: 0.8rem;
+    margin-top: 15px;
+    opacity: 0.8;
+}
+
+.betterbluesky_poll_bybetterbluesky a{
+    color: #FF9325;
+    text-decoration: none;
+}
+
+.betterbluesky_poll_bybetterbluesky a:hover{
+    text-decoration: underline;
 }
