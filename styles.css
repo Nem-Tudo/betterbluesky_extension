@@ -150,17 +150,10 @@ div[class="css-175oi2r r-1awozwy r-1llaxt6 r-13awgt0 r-18u37iz r-11f147o r-3o4ze
 
 }
 
-/* o que isso faz? - flaf */
 div[class="background-color: rgb(20, 27, 35);"] {
     background: rgb(32 35 39) !important;
     --placeholderTextColor: hsl(0deg 0% 100% / 31%) !important;
 }
-
-.css-175oi2r div[class="css-175oi2r r-1la3zjv r-3o4zer"] div:last-child::after {
-    content: "· BetterBluesky <3";
-    color: #FF9325;
-}
-
 
 /* trends */
 
@@ -445,7 +438,7 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
     left: 50%;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 3fr 1fr;
     gap: 10px;
 
     transform: translate(-50%, -50%);
@@ -489,6 +482,7 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
     font-size: 1.2rem;
     padding-right: 2.5rem;
     max-width: 10rem;
+    margin-top: 10px;
 }
 
 .bb-settings-button:hover {
@@ -498,6 +492,19 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
 .preference-text {
     color: var(--font-color);
     grid-column: 1;
+    margin-bottom: 5px;
+}
+
+.preference-description{
+    color: var(--font-color);
+    font-size: 0.8rem;
+    opacity: 0.8;
+    min-width: 300px;
+}
+
+.refresh-page {
+    margin-top: 20px;
+    padding: 9px 20px;
 }
 
 .pugbox {

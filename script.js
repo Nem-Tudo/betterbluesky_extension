@@ -11,7 +11,7 @@ window.betterblueskystorage = betterblueskystorage;
 
 function loadBetterbluesky() {
 
-    const defaultConfig = { loaded: true, trendingTopics: true, telemetry: true, videos: true, likes: true, polls: true, easter_egg_tremdetopicos: false };
+    const defaultConfig = { loaded: true, trendingTopics: true, telemetry: true, videos: true, likes: true, polls: true, updatenotes: true, easter_egg_tremdetopicos: false };
 
     if (!localStorage.getItem("BETTERBLUESKY")) {
         localStorage.setItem("BETTERBLUESKY", JSON.stringify(defaultConfig));
@@ -116,22 +116,39 @@ async function updateTrends(replaceAll = false) {
 }
 
 function settingsPopup() {
-    document.body.innerHTML += `
-                  <div id="popup-overlay" class="overlay">
-                    <div class="pugpup">
-                        <p class="preference-text">Trending Topics</p>
-                        <input type="checkbox" id="preferences" class="pugbox" name="trendingTopics" />
-                        
-                        <p class="preference-text">User Likes</p>
-                        <input type="checkbox" id="preferences" class="pugbox" name="likes" />
+    document.body.insertAdjacentHTML("beforeend", `
+<div id="popup-overlay" class="overlay">
+    <div class="pugpup">
+        <div class="preference-div">
+            <p class="preference-text">Trending Topics</p>
+            <span class="preference-description">Visualize os Trending Topics do Bluesky</span>
+        </div>
+        <input type="checkbox" id="preferences" class="pugbox" name="trendingTopics" />
 
-                        <p class="preference-text">Enquetes</p>
-                        <input type="checkbox" id="preferences" class="pugbox" name="polls" />
+        <div class="preference-div">
+            <p class="preference-text">User Likes</p>
+            <span class="preference-description">Veja um botão de coração, ao lado do perfil do usuário, que mostra o que foi curtido</span>
+        </div>
 
-                        <button id="refresh-btn" class="refresh-page">Refresh ✨</button>
-                    </div>
-                </div>
-            `
+        <input type="checkbox" id="preferences" class="pugbox" name="likes" />
+
+        <div class="preference-div">
+            <p class="preference-text">Enquetes</p>
+            <span class="preference-description">Envie e veja enquetes de usuários do BetterBluesky!</span>
+        </div>
+
+        <input type="checkbox" id="preferences" class="pugbox" name="polls" />
+
+        <div class="preference-div">
+            <p class="preference-text">Notas de atualização</p>
+            <span class="preference-description">Receba uma mensagem sempre que houver atualizações importantes na extensão!</span>
+        </div>
+
+        <input type="checkbox" id="preferences" class="pugbox" name="updatenotes" />
+
+        <button id="refresh-btn" class="refresh-page">Atualizar ✨</button>
+    </div>
+</div>`)
 }
 
 setInterval(() => {
@@ -157,6 +174,7 @@ document.addEventListener('click', () => {
     addPollButton();
     setTimeout(() => {
         addLikedButton();
+        addSettingsButton(); 
     }, 1000)
 })
 
@@ -302,6 +320,7 @@ function addDownloadVideoButton() {
 
 function addSettingsButton() {
     // Settings / preferences by pugdev :D
+    if(document.querySelector("#settings-btn")) return;
     const sidebar = document.querySelector("div[class='css-175oi2r r-c4unlt r-pgf20v r-1rnoaur r-1xcajam r-1ki14p2 r-1w88a7h']") || document.querySelector("div[class='css-175oi2r r-pgf20v r-1rnoaur r-1xcajam r-1awozwy r-13l2t4g r-1pi2tsx r-1d2f490 r-12ijkx4 r-ipm5af r-z2g584']");
     if (sidebar) {
         const buttonContainer = document.createElement("div");
