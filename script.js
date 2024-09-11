@@ -122,9 +122,6 @@ function settingsPopup() {
                         <p class="preference-text">Trending Topics</p>
                         <input type="checkbox" id="preferences" class="pugbox" name="trendingTopics" />
                         
-                        <p class="preference-text">Vídeos</p>
-                        <input type="checkbox" id="preferences" class="pugbox" name="videos" />
-
                         <p class="preference-text">User Likes</p>
                         <input type="checkbox" id="preferences" class="pugbox" name="likes" />
 
@@ -157,7 +154,6 @@ window.addEventListener('load', () => setTimeout(() => { addTrendsHTML(); }, 320
 //atualizador de eventos
 document.addEventListener('click', () => {
     addTrendsHTML();
-    addVideoButton();
     addPollButton();
     setTimeout(() => {
         addLikedButton();
@@ -166,12 +162,6 @@ document.addEventListener('click', () => {
 
 //eventos especificos 
 document.addEventListener('click', (event) => {
-    if (event.target.id === "betterblueskyvideobutton") {
-        const url = getImgurVideoLink(prompt('[BetterBluesky] Insira o link do vídeo. Deve ser um link do imgur.com ou url direta'));
-        if (!url) return;
-        document.querySelector('div[contenteditable="true"]').innerHTML += `&lt;BetterBlueSky_video:${escapeHTML(url)}&gt;`
-    }
-
     if (event.target.id === "betterblueskypollbutton") {
         const title = prompt("[BetterBluesky] Qual o título da enquete?")
         if (!title) return;
@@ -292,24 +282,14 @@ function addTrendsHTML() {
     updateTrends(true);
 }
 
-function addVideoButton() {
-    if (betterblueskystorage.videos == false) return; // Respect user preference
-    // dark
-    if ((!document.querySelector("#betterblueskyvideobutton")) && (document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(0, 0, 0); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]'))) document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(0, 0, 0); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]').innerHTML += `<button id='betterblueskyvideobutton'>Vídeo</button>` //+ document.querySelector("div[class='css-175oi2r r-1awozwy r-5kkj8d r-18u37iz r-cnw61z r-16lhzmz r-i023vh']").innerHTML;
-    // menos dark
-    if ((!document.querySelector("#betterblueskyvideobutton")) && (document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(255, 255, 255); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]'))) document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(255, 255, 255); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]').innerHTML += `<button id='betterblueskyvideobutton'>Vídeo</button>` //+ document.querySelector("div[class='css-175oi2r r-1awozwy r-5kkj8d r-18u37iz r-cnw61z r-16lhzmz r-i023vh']").innerHTML;
-    //claro
-    if ((!document.querySelector("#betterblueskyvideobutton")) && (document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(22, 30, 39); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]'))) document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(22, 30, 39); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]').innerHTML += `<button id='betterblueskyvideobutton'>Vídeo</button>` //+ document.querySelector("div[class='css-175oi2r r-1awozwy r-5kkj8d r-18u37iz r-cnw61z r-16lhzmz r-i023vh']").innerHTML;
-}
-
 function addPollButton() {
     if (betterblueskystorage.polls == false) return; // Respect user preference
     // dark
-    if ((!document.querySelector("#betterblueskypollbutton")) && (document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(0, 0, 0); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]'))) document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(0, 0, 0); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]').innerHTML += `<button id='betterblueskypollbutton'>Enquete</button>` //+ document.querySelector("div[class='css-175oi2r r-1awozwy r-5kkj8d r-18u37iz r-cnw61z r-16lhzmz r-i023vh']").innerHTML;
+    if ((!document.querySelector("#betterblueskypollbutton")) && (document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(0, 0, 0); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]'))) document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(0, 0, 0); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]').insertAdjacentHTML("beforeend", `<button id='betterblueskypollbutton'>Enquete</button>`) //+ document.querySelector("div[class='css-175oi2r r-1awozwy r-5kkj8d r-18u37iz r-cnw61z r-16lhzmz r-i023vh']").innerHTML;
     // menos dark
-    if ((!document.querySelector("#betterblueskypollbutton")) && (document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(255, 255, 255); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]'))) document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(255, 255, 255); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]').innerHTML += `<button id='betterblueskypollbutton'>Enquete</button>` //+ document.querySelector("div[class='css-175oi2r r-1awozwy r-5kkj8d r-18u37iz r-cnw61z r-16lhzmz r-i023vh']").innerHTML;
+    if ((!document.querySelector("#betterblueskypollbutton")) && (document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(255, 255, 255); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]'))) document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(255, 255, 255); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]').insertAdjacentHTML("beforeend", `<button id='betterblueskypollbutton'>Enquete</button>`) //+ document.querySelector("div[class='css-175oi2r r-1awozwy r-5kkj8d r-18u37iz r-cnw61z r-16lhzmz r-i023vh']").innerHTML;
     //claro
-    if ((!document.querySelector("#betterblueskypollbutton")) && (document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(22, 30, 39); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]'))) document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(22, 30, 39); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]').innerHTML += `<button id='betterblueskypollbutton'>Enquete</button>` //+ document.querySelector("div[class='css-175oi2r r-1awozwy r-5kkj8d r-18u37iz r-cnw61z r-16lhzmz r-i023vh']").innerHTML;
+    if ((!document.querySelector("#betterblueskypollbutton")) && (document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(22, 30, 39); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]'))) document.querySelector('div[style="flex-direction: row; padding: 8px; background-color: rgb(22, 30, 39); border-top-width: 1px; border-color: rgba(0, 0, 0, 0);"]').insertAdjacentHTML("beforeend", `<button id='betterblueskypollbutton'>Enquete</button>`) //+ document.querySelector("div[class='css-175oi2r r-1awozwy r-5kkj8d r-18u37iz r-cnw61z r-16lhzmz r-i023vh']").innerHTML;
 }
 
 function addDownloadVideoButton() {
@@ -401,7 +381,7 @@ async function replaceBetterBlueSkyPoll(pollID, elements, match) {
         let html = element.innerHTML;
 
         if (!poll) {
-            const pollElement = `<div class="betterbluesky_pollnotfound"><span>Enquete excluída</span><span class="betterbluesky_pollnotfound_description"><a target="_blank" href="https://nemtudo.me/betterbluesky">BetterBluesky</a>・Veja os trendings topics, envie enquetes, vídeos & mais.</span></div>`;
+            const pollElement = `<div class="betterbluesky_pollnotfound"><span>Enquete excluída</span><span class="betterbluesky_pollnotfound_description"><a target="_blank" href="https://nemtudo.me/betterbluesky">BetterBluesky</a>・Veja os trendings topics, envie enquetes & mais.</span></div>`;
 
             // Substitui o match atual pelo elemento
             if (match) {
@@ -536,18 +516,4 @@ function getViewingProfile() {
     const url = window.location.href;
     const parts = url.split('/').filter(part => part); // Remove strings vazias
     return parts[parts.length - 1]; // Retorna o último segmento
-}
-
-function getImgurVideoLink(url) {
-    if (!url) return null;
-    const imgurRegex = /https?:\/\/(?:i\.)?imgur\.com\/([^.\s/]+)(\.\w+)?/;
-    const match = url.match(imgurRegex);
-
-    if (match) {
-        const id = match[1];
-        const extension = match[2] || '.mp4'; // Se não houver extensão, assume que é .mp4
-        return `https://i.imgur.com/${id}${extension}`;
-    }
-
-    return url; // Retorna o link original se não for do imgur
 }
