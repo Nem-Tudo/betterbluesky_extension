@@ -568,16 +568,18 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
     text-align: left;
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .betterbluesky_poll_option_text{
     margin-right: 10px;
     pointer-events: none;
+    z-index: 1;
     color: var(--poll-text-color);
 }
 
 .betterbluesky_poll .betterbluesky_poll_options .betterbluesky_poll_option[option_selected="true"]{
-    background-color: #6e70fd;
+    background-color: #5657C5;
 }
 
 .betterbluesky_poll[voted="false"] .betterbluesky_poll_options .betterbluesky_poll_option:hover{
@@ -600,6 +602,7 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
     font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.685);
     display: none;
+    z-index: 1;
 }
 
 .betterbluesky_pollnotfound{
@@ -626,6 +629,12 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
     text-decoration: underline;
 }
 
+.betterbluesky_poll_totalvotescount{
+    font-size: 0.8rem;
+    margin-top: 7px;
+    opacity: 0.5;
+}
+
 .betterbluesky_poll_bybetterbluesky{
     font-size: 0.8rem;
     margin-top: 15px;
@@ -639,4 +648,47 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
 
 .betterbluesky_poll_bybetterbluesky a:hover{
     text-decoration: underline;
+}
+
+.betterbluesky_poll_option[option_selected="true"] .betterbluesky_poll_option_votedicon, .betterbluesky_poll[voted="true"] .betterbluesky_poll_votebackground{
+    display: block;
+}
+
+.betterbluesky_poll_votebackground{
+    display: none;
+    background: #6e70fd30;
+    position: absolute;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.betterbluesky_poll .betterbluesky_poll_options .betterbluesky_poll_option[option_selected="true"] .betterbluesky_poll_votebackground{
+    background-color: #6E70FD;
+}
+
+.betterbluesky_downloadvideobutton{
+    border: 1px solid #FF9325;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.betterbluesky_downloadvideobutton img{
+    width: 15px;
+    filter: invert(53%) sepia(84%) saturate(625%) hue-rotate(-25deg);
+}
+
+.betterbluesky_downloadvideobutton:hover{
+    background-color: #FF9325;
+}
+
+.betterbluesky_downloadvideobutton:hover img{
+    filter: unset;
 }
