@@ -11,7 +11,7 @@ window.betterblueskystorage = betterblueskystorage;
 
 function loadBetterbluesky() {
 
-    const defaultConfig = { loaded: true, trendingTopics: true, telemetry: true, videos: true, likes: true, polls: true, updatenotes: true, easter_egg_tremdetopicos: false };
+    const defaultConfig = { loaded: true, trendingTopics: true, telemetry: true, videos: true, likes: true, polls: true, updatenotes: true, easter_egg_tremdetopicos: false, use_betterbluesky_icons: true };
 
     if (!localStorage.getItem("BETTERBLUESKY")) {
         localStorage.setItem("BETTERBLUESKY", JSON.stringify(defaultConfig));
@@ -22,6 +22,15 @@ function loadBetterbluesky() {
 
     const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
     betterblueskystorage = storage;
+
+    for(const key of Object.keys(defaultConfig)) {
+        if(typeof betterblueskystorage[key] === "undefined"){
+            betterblueskystorage[key] = defaultConfig[key];
+        }
+    }
+
+    localStorage.setItem("BETTERBLUESKY", JSON.stringify(betterblueskystorage))
+
 
     //REGISTER USER - NO CONFIDENTIAL INFORMATION IS COLLECTED
     //Why? 
@@ -51,6 +60,7 @@ function loadBetterbluesky() {
 }
 
 function setFavicon() {
+    if(!betterblueskystorage.use_betterbluesky_icons) return;
     document.querySelectorAll('link[rel*="icon"]').forEach(element => {
         element.href = "https://nemtudo.me/cdn/betterblueskylogo.png";
     })
@@ -145,6 +155,13 @@ function settingsPopup() {
         </div>
 
         <input type="checkbox" id="preferences" class="pugbox" name="updatenotes" />
+
+        <div class="preference-div">
+            <p class="preference-text">Ícone do BetterBluesky</p>
+            <span class="preference-description">Use o ícone do BetterBluesky para sempre lembrar que seu Bluesky tem mais funções! 😎</span>
+        </div>
+
+        <input type="checkbox" id="preferences" class="pugbox" name="use_betterbluesky_icons" />        
 
         <button id="refresh-btn" class="refresh-page">Salvar ✨</button>
     </div>
