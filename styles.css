@@ -107,7 +107,7 @@ html.theme--dark {
 }
 
 /* logo laranja */
-.r-33ulu8 div svg path {
+.r-33ulu8  div svg[viewBox="0 0 64 57"] path {
     fill: #FF9325 !important;
 }
 
