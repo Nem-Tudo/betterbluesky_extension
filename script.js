@@ -146,7 +146,7 @@ function settingsPopup() {
 
         <input type="checkbox" id="preferences" class="pugbox" name="updatenotes" />
 
-        <button id="refresh-btn" class="refresh-page">Atualizar ✨</button>
+        <button id="refresh-btn" class="refresh-page">Salvar ✨</button>
     </div>
 </div>`)
 }

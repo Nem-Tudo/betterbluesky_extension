@@ -478,7 +478,7 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
 }
 
 .bb-settings-text {
-    color: #ff8300;
+    color: var(--font-color);
     font-size: 1.2rem;
     padding-right: 2.5rem;
     max-width: 10rem;
