@@ -6,12 +6,13 @@ let trendsUpdatesCounts = 0;
 const sessionID = `${Date.now()}_${randomString(10)}` //gera um ID para fins de uso no backend
 console.log(`[BetterBluesky] SessionID: ${sessionID}`)
 
-let betterblueskystorage = JSON.parse(localStorage.getItem("BETTERBLUESKY")) || {};
+const defaultConfig = { loaded: true, trendingTopics: true, telemetry: true, videos: true, likes: true, polls: true, updatenotes: true, bookmarks: true, easter_egg_tremdetopicos: false, use_betterbluesky_icons: true, trends_language: "pt" };
+
+let betterblueskystorage = JSON.parse(localStorage.getItem("BETTERBLUESKY")) || defaultConfig;
 window.betterblueskystorage = betterblueskystorage;
 
 function loadBetterbluesky() {
 
-    const defaultConfig = { loaded: true, trendingTopics: true, telemetry: true, videos: true, likes: true, polls: true, updatenotes: true, bookmarks: true, easter_egg_tremdetopicos: false, use_betterbluesky_icons: true };
 
     if (!localStorage.getItem("BETTERBLUESKY")) {
         localStorage.setItem("BETTERBLUESKY", JSON.stringify(defaultConfig));
@@ -30,6 +31,7 @@ function loadBetterbluesky() {
     }
 
     localStorage.setItem("BETTERBLUESKY", JSON.stringify(betterblueskystorage))
+    betterblueskystorage = storage;
 
 
     //REGISTER USER - NO CONFIDENTIAL INFORMATION IS COLLECTED
@@ -106,13 +108,13 @@ function updatePreferences(preference, value) {
 
 async function getTrends(count) {
     if (betterblueskystorage.trendingTopics == false) return; // No unnecessary requests 
-    const trends = await fetch(`${apiDomain}/api/trends?updateCount=${count}&sessionID=${sessionID}`).then(r => r.json());
+    const trends = await fetch(`${apiDomain}/api/trends?updateCount=${count}&lang=${betterblueskystorage.trends_language}&sessionID=${sessionID}`).then(r => r.json());
     return trends.data;
 }
 
 async function updateTrends(replaceAll = false) {
     if (betterblueskystorage.trendingTopics == false) return; // Avoid updating trends when they are disabled.
-    console.log("[BetterBluesky] Trends Atualizado", trendsUpdatesCounts)
+    console.log("[BetterBluesky] Trends Atualizado", trendsUpdatesCounts, betterblueskystorage.trends_language)
     const trends = await getTrends(trendsUpdatesCounts);
     trendsUpdatesCounts++;
 
@@ -126,7 +128,6 @@ async function updateTrends(replaceAll = false) {
 
     html += `<span class="apoie">Gostou? Apoie o projeto! <a id="apoieurl" target="_blank" href='https://livepix.gg/nemtudo'>livepix.gg/nemtudo</a></span>`
     html += `<span class="sourcecode">Código fonte: <a id="sourcecode" target="_blank" href='https://bsky.app/profile/nemtudo.me/post/3l3dwh7m4bj27'>acessar</a></span>`
-
     if (document.querySelector("#trendsarea")) replaceAll ? document.querySelector("#trendsarea").innerHTML = html : document.querySelector("#trendsarea").innerHTML += html;
 }
 
@@ -194,7 +195,7 @@ setInterval(() => {
 
 window.addEventListener('load', () => setTimeout(() => { loadBetterbluesky(); setFavicon() }, 3000));
 window.addEventListener('load', setFavicon);
-window.addEventListener('load', () => setTimeout(() => { addBookmarksSidebarButton(); addSettingsButton()}, 2000));
+window.addEventListener('load', () => setTimeout(() => { addBookmarksSidebarButton(); addSettingsButton() }, 2000));
 window.addEventListener('load', () => setTimeout(() => { addTrendsHTML(); }, 3200));
 
 //atualizador de eventos
@@ -251,15 +252,15 @@ document.addEventListener('click', (event) => {
             method: (event.target.getAttribute("marked") === "true") ? "DELETE" : "POST"
         })
 
-        
-        if(event.target.getAttribute("marked") === "true"){
+
+        if (event.target.getAttribute("marked") === "true") {
             event.target.setAttribute("marked", false);
             console.log(`[BetterBluesky] Post bookmark ${data.postId} set to false`)
         } else {
             event.target.setAttribute("marked", true);
             console.log(`[BetterBluesky] Post bookmark ${data.postId} set to true`)
         }
-        
+
     }
 
     if (event.target.id === "userlikedbutton") {
@@ -337,18 +338,60 @@ function addTrendsHTML() {
     if (betterblueskystorage.trendingTopics == false) return; // Respect user preference
     if (document.querySelector("#trendsarea")) return;
 
+    const languages = [
+        {
+            id: "global",
+            name: "Global"
+        },
+        {
+            id: "pt",
+            name: "Português"
+        },
+        {
+            id: "en",
+            name: "English"
+        },
+        {
+            id: "fr",
+            name: "Français"
+        },
+        {
+            id: "es",
+            name: "Español"
+        },
+        {
+            id: "ja",
+            name: "日本語"
+        }
+    ]
+
+    const selectLanguage = `<select name="select_trends_language" id="select_trends_language">
+        ${languages.map(language => `<option ${(betterblueskystorage.trends_language === language.id) ? "selected" : ""} value="${language.id}">${language.name}</option>`)}
+    </select>`;
+
     const element = document.querySelector("div[class='css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr']") || document.querySelector('div[class="css-175oi2r r-196lrry r-pm9dpa r-1rnoaur r-1xcajam r-1ipicw7"]')
 
     if (element) element.insertAdjacentHTML("afterbegin", `<div class="trends">
-    <h2 id="trendingsname">${betterblueskystorage.easter_egg_tremdetopicos ? "Trem de tópicos" : "Trending Topics"} <span class='beta'>BETA</span></h2>
+    <div class="trends_title">
+        <h2 id="trendingsname">${betterblueskystorage.easter_egg_tremdetopicos ? "Trem de tópicos" : "Trending Topics"}</h2> ${selectLanguage}
+    </div>
     <div class='description'>
     <span>Fornecido por <a style="color: #FF9325;" target="_blank" role="link" href='https://nemtudo.me/betterbluesky'>BetterBluesky</a>.<br> Desenvolvido por <a id="devcredits" target="_blank" href='https://bsky.app/profile/nemtudo.me'>@nemtudo.me</a>. Siga!</span>
+    
     </div>
     <ul id="trendsarea">
     <span class="loadingtrends">Carregando...</span>
     </ul>
 </div>`)
     updateTrends(true);
+
+    document.querySelectorAll(`#select_trends_language`).forEach(select => {
+        select.addEventListener('change', function (event) {
+            const selectedLanguage = event.target.value;
+            updatePreferences("trends_language", selectedLanguage)
+            updateTrends(true)
+        });
+    });
 }
 
 function addPollButton() {
@@ -377,9 +420,9 @@ async function addBookmarkButton() {
         if (!element.querySelector("#bookmarkbutton")) {
             const id = randomString(5);
             element.insertAdjacentHTML("beforeend", `<button id="bookmarkbutton" marked="false" class="bookmarkbutton" data_bookmarkbutton_id="${id}" ><img class="bookmarkbutton_unmarkedimage" src="https://cdn-icons-png.flaticon.com/512/494/494568.png"/><img class="bookmarkbutton_markedimage" src="https://cdn-icons-png.flaticon.com/512/786/786352.png"/></button>`);
-            if(!data) return;
+            if (!data) return;
             const response = await fetch(`${apiDomain}/api/bookmarks?postid=${encodeURIComponent(data.postId)}&sessionID=${sessionID}`).then(r => r.json());
-            if(response.exists){
+            if (response.exists) {
                 document.querySelector(`.bookmarkbutton[data_bookmarkbutton_id="${id}"]`).setAttribute("marked", "true")
             }
         }
@@ -410,7 +453,7 @@ function addSettingsButton() {
 
 function addBookmarksSidebarButton() {
     // Bookmarks button
-    if(!betterblueskystorage.bookmarks) return; //respect user preference
+    if (!betterblueskystorage.bookmarks) return; //respect user preference
     if (document.querySelector("#bookmarks-btn")) return;
     const sidebar = document.querySelector("div[class='css-175oi2r r-c4unlt r-pgf20v r-1rnoaur r-1xcajam r-1ki14p2 r-1w88a7h']") || document.querySelector("div[class='css-175oi2r r-pgf20v r-1rnoaur r-1xcajam r-1awozwy r-13l2t4g r-1pi2tsx r-1d2f490 r-12ijkx4 r-ipm5af r-z2g584']");
     if (sidebar) {
@@ -579,10 +622,10 @@ async function votePoll(pollID, option) {
         // Verifica se a sequência alvo foi digitada
         if (typed === target) {
             if (!betterblueskystorage.easter_egg_tremdetopicos) {
-                if (document.querySelector("#trendingsname")) document.querySelector("#trendingsname").innerHTML = "Trem de Tópicos <span class='beta'>BETA</span>"
+                if (document.querySelector("#trendingsname")) document.querySelector("#trendingsname").innerHTML = "Trem de Tópicos"
                 updatePreferences("easter_egg_tremdetopicos", true)
             } else {
-                if (document.querySelector("#trendingsname")) document.querySelector("#trendingsname").innerHTML = "Trending Topics <span class='beta'>BETA</span>"
+                if (document.querySelector("#trendingsname")) document.querySelector("#trendingsname").innerHTML = "Trending Topics"
                 updatePreferences("easter_egg_tremdetopicos", false)
             }
         }
@@ -638,6 +681,6 @@ function extractHandleAndPostIdFromUrl(url) {
             postId: match[2]
         };
     } else {
-        return null; 
+        return null;
     }
 }

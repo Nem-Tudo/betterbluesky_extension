@@ -203,6 +203,24 @@ div [class="css-175oi2r r-13awgt0 r-1rnoaur r-1la3zjv r-3o4zer r-1ipicw7"] {
     flex-direction: column;
 }
 
+.trends_title{
+    display: flex;
+    align-items: baseline;
+}
+
+#select_trends_language{
+    background-color: transparent;
+    border: transparent;
+    color: rgb(140, 182, 255);
+    margin-left: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+#select_trends_language option{
+    background-color: var(--trends-background-color);
+}
+
 .trends ul {
     padding: 0;
     max-height: 400px;
