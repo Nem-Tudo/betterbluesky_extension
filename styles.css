@@ -483,6 +483,7 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
     padding-right: 2.5rem;
     max-width: 10rem;
     margin-top: 10px;
+    text-align: left;
 }
 
 .bb-settings-button:hover {
@@ -698,4 +699,39 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
 
 .betterbluesky_downloadvideobutton:hover img{
     filter: unset;
+}
+
+/* bookmarks */
+
+#bookmarkbutton{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#bookmarkbutton:hover img{
+    opacity: 1;
+    filter: invert(45%) sepia(100%) saturate(500%) hue-rotate(360deg) brightness(95%);
+    pointer-events: none;
+}
+
+#bookmarkbutton img{
+    width: 20px;
+    filter: invert(1);
+    opacity: 0.7;
+    display: none;
+}
+
+#bookmarkbutton[marked="true"] img{
+    opacity: 1;
+    filter: invert(45%) sepia(100%) saturate(500%) hue-rotate(360deg) brightness(95%);
+    pointer-events: none;
+}
+
+#bookmarkbutton[marked="true"] .bookmarkbutton_markedimage{
+    display: block;
+}
+
+#bookmarkbutton[marked="false"] .bookmarkbutton_unmarkedimage{
+    display: block;
 }

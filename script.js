@@ -11,7 +11,7 @@ window.betterblueskystorage = betterblueskystorage;
 
 function loadBetterbluesky() {
 
-    const defaultConfig = { loaded: true, trendingTopics: true, telemetry: true, videos: true, likes: true, polls: true, updatenotes: true, easter_egg_tremdetopicos: false, use_betterbluesky_icons: true };
+    const defaultConfig = { loaded: true, trendingTopics: true, telemetry: true, videos: true, likes: true, polls: true, updatenotes: true, bookmarks: true, easter_egg_tremdetopicos: false, use_betterbluesky_icons: true };
 
     if (!localStorage.getItem("BETTERBLUESKY")) {
         localStorage.setItem("BETTERBLUESKY", JSON.stringify(defaultConfig));
@@ -23,8 +23,8 @@ function loadBetterbluesky() {
     const storage = JSON.parse(localStorage.getItem("BETTERBLUESKY"));
     betterblueskystorage = storage;
 
-    for(const key of Object.keys(defaultConfig)) {
-        if(typeof betterblueskystorage[key] === "undefined"){
+    for (const key of Object.keys(defaultConfig)) {
+        if (typeof betterblueskystorage[key] === "undefined") {
             betterblueskystorage[key] = defaultConfig[key];
         }
     }
@@ -50,6 +50,11 @@ function loadBetterbluesky() {
         method: "POST",
     }).then(() => {
         replaceBetterBlueSkyPolls()
+        setInterval(() => {
+            if (betterblueskystorage.bookmarks == true) {
+                addBookmarkButton();
+            }
+        }, 200)
     })
 
     setInterval(() => {
@@ -60,7 +65,7 @@ function loadBetterbluesky() {
 }
 
 function setFavicon() {
-    if(!betterblueskystorage.use_betterbluesky_icons) return;
+    if (!betterblueskystorage.use_betterbluesky_icons) return;
     document.querySelectorAll('link[rel*="icon"]').forEach(element => {
         element.href = "https://nemtudo.me/cdn/betterblueskylogo.png";
     })
@@ -150,6 +155,13 @@ function settingsPopup() {
         <input type="checkbox" id="preferences" class="pugbox" name="polls" />
 
         <div class="preference-div">
+            <p class="preference-text">Itens Salvos</p>
+            <span class="preference-description">Salve posts e veja diretamente no feed: <a href="https://bit.ly/bookmarksfeed">Bookmarks</a>!</span>
+        </div>
+
+        <input type="checkbox" id="preferences" class="pugbox" name="bookmarks" />        
+
+        <div class="preference-div">
             <p class="preference-text">Notas de atualização</p>
             <span class="preference-description">Receba uma mensagem sempre que houver atualizações importantes na extensão!</span>
         </div>
@@ -182,7 +194,7 @@ setInterval(() => {
 
 window.addEventListener('load', () => setTimeout(() => { loadBetterbluesky(); setFavicon() }, 3000));
 window.addEventListener('load', setFavicon);
-window.addEventListener('load', () => setTimeout(() => { addSettingsButton(); }, 2000));
+window.addEventListener('load', () => setTimeout(() => { addBookmarksSidebarButton(); addSettingsButton()}, 2000));
 window.addEventListener('load', () => setTimeout(() => { addTrendsHTML(); }, 3200));
 
 //atualizador de eventos
@@ -191,7 +203,8 @@ document.addEventListener('click', () => {
     addPollButton();
     setTimeout(() => {
         addLikedButton();
-        addSettingsButton(); 
+        addBookmarksSidebarButton();
+        addSettingsButton();
     }, 1000)
 })
 
@@ -228,8 +241,29 @@ document.addEventListener('click', (event) => {
         updateSetting(event.target.getAttribute("betterbluesky_update", e.target.checked))
     }
 
+    if (event.target.id === "bookmarks-btn") {
+        location.href = "https://bit.ly/bookmarksfeed"
+    }
+
+    if (event.target.classList.contains("bookmarkbutton")) {
+        const data = extractHandleAndPostIdFromUrl(window.location.href);
+        fetch(`${apiDomain}/api/bookmarks?postid=${encodeURIComponent(data.postId)}&postuserhandle=${encodeURIComponent(data.handle)}&sessionID=${sessionID}`, {
+            method: (event.target.getAttribute("marked") === "true") ? "DELETE" : "POST"
+        })
+
+        
+        if(event.target.getAttribute("marked") === "true"){
+            event.target.setAttribute("marked", false);
+            console.log(`[BetterBluesky] Post bookmark ${data.postId} set to false`)
+        } else {
+            event.target.setAttribute("marked", true);
+            console.log(`[BetterBluesky] Post bookmark ${data.postId} set to true`)
+        }
+        
+    }
+
     if (event.target.id === "userlikedbutton") {
-        window.open(`https://likedbetterbluesky.nemtudo.me/?defaultHandle=${encodeURIComponent(getViewingProfile())}`)
+        window.open(`https://likedbetterbluesky.nemtudo.me/?defaultHandle=${encodeURIComponent(getLastURLParam())}`)
     }
 
     if (event.target.id === "settings-btn") {
@@ -305,7 +339,7 @@ function addTrendsHTML() {
 
     const element = document.querySelector("div[class='css-175oi2r r-qklmqi r-5kkj8d r-le4sbl r-1444osr']") || document.querySelector('div[class="css-175oi2r r-196lrry r-pm9dpa r-1rnoaur r-1xcajam r-1ipicw7"]')
 
-    if (element) element.innerHTML = `<div class="trends">
+    if (element) element.insertAdjacentHTML("afterbegin", `<div class="trends">
     <h2 id="trendingsname">${betterblueskystorage.easter_egg_tremdetopicos ? "Trem de tópicos" : "Trending Topics"} <span class='beta'>BETA</span></h2>
     <div class='description'>
     <span>Fornecido por <a style="color: #FF9325;" target="_blank" role="link" href='https://nemtudo.me/betterbluesky'>BetterBluesky</a>.<br> Desenvolvido por <a id="devcredits" target="_blank" href='https://bsky.app/profile/nemtudo.me'>@nemtudo.me</a>. Siga!</span>
@@ -313,7 +347,7 @@ function addTrendsHTML() {
     <ul id="trendsarea">
     <span class="loadingtrends">Carregando...</span>
     </ul>
-</div>` + element.innerHTML;
+</div>`)
     updateTrends(true);
 }
 
@@ -335,18 +369,58 @@ function addDownloadVideoButton() {
 
 }
 
+async function addBookmarkButton() {
+    const elements = document.querySelectorAll('div[class="css-175oi2r r-1hfyk0a r-1qfoi16 r-1mi0q7o"] div[class="css-175oi2r r-1hfyk0a r-1qfoi16"] > div:first-child') //div[class="css-175oi2r r-13awgt0 r-bnwqim r-417010"] div[class="css-175oi2r"][style="flex-direction: row; justify-content: space-between; align-items: center;"]
+    const data = extractHandleAndPostIdFromUrl(window.location.href);
+
+    for (const element of elements) {
+        if (!element.querySelector("#bookmarkbutton")) {
+            const id = randomString(5);
+            element.insertAdjacentHTML("beforeend", `<button id="bookmarkbutton" marked="false" class="bookmarkbutton" data_bookmarkbutton_id="${id}" ><img class="bookmarkbutton_unmarkedimage" src="https://cdn-icons-png.flaticon.com/512/494/494568.png"/><img class="bookmarkbutton_markedimage" src="https://cdn-icons-png.flaticon.com/512/786/786352.png"/></button>`);
+            if(!data) return;
+            const response = await fetch(`${apiDomain}/api/bookmarks?postid=${encodeURIComponent(data.postId)}&sessionID=${sessionID}`).then(r => r.json());
+            if(response.exists){
+                document.querySelector(`.bookmarkbutton[data_bookmarkbutton_id="${id}"]`).setAttribute("marked", "true")
+            }
+        }
+    }
+}
+
 function addSettingsButton() {
     // Settings / preferences by pugdev :D
-    if(document.querySelector("#settings-btn")) return;
+    if (document.querySelector("#settings-btn")) return;
     const sidebar = document.querySelector("div[class='css-175oi2r r-c4unlt r-pgf20v r-1rnoaur r-1xcajam r-1ki14p2 r-1w88a7h']") || document.querySelector("div[class='css-175oi2r r-pgf20v r-1rnoaur r-1xcajam r-1awozwy r-13l2t4g r-1pi2tsx r-1d2f490 r-12ijkx4 r-ipm5af r-z2g584']");
     if (sidebar) {
         const buttonContainer = document.createElement("div");
         buttonContainer.id = "settings-btn";
+        buttonContainer.classList.add("settings_btn")
 
         // Adds the settings button and an icon version for smaller screens.
         buttonContainer.innerHTML = `
             <button id='settings-btn' class='bb-settings-icon'>🦋</button> 
             <button id='settings-btn' class='bb-settings-button'><p id='settings-btn' class="bb-settings-text">🦋 BetterBluesky</p></button>
+        `;
+
+        var lastChild = sidebar.lastChild;
+
+        sidebar.insertBefore(buttonContainer, lastChild);
+    }
+    if (!sidebar) console.warn("Nenhuma sidebar encontrada. o CSS mudou? 0_0");
+}
+
+function addBookmarksSidebarButton() {
+    // Bookmarks button
+    if(!betterblueskystorage.bookmarks) return; //respect user preference
+    if (document.querySelector("#bookmarks-btn")) return;
+    const sidebar = document.querySelector("div[class='css-175oi2r r-c4unlt r-pgf20v r-1rnoaur r-1xcajam r-1ki14p2 r-1w88a7h']") || document.querySelector("div[class='css-175oi2r r-pgf20v r-1rnoaur r-1xcajam r-1awozwy r-13l2t4g r-1pi2tsx r-1d2f490 r-12ijkx4 r-ipm5af r-z2g584']");
+    if (sidebar) {
+        const buttonContainer = document.createElement("div");
+        buttonContainer.id = "bookmarks-btn";
+
+        // Adds the settings button and an icon version for smaller screens.
+        buttonContainer.innerHTML = `
+            <button id='bookmarks-btn' class='bb-settings-icon'>📌</button> 
+            <button id='bookmarks-btn' class='bb-settings-button'><p id='bookmarks-btn' class="bb-settings-text">📌 Bookmarks</p></button>
         `;
 
         var lastChild = sidebar.lastChild;
@@ -548,8 +622,22 @@ function updateSetting(setting, value) {
     betterblueskystorage = storage;
 }
 
-function getViewingProfile() {
+function getLastURLParam() {
     const url = window.location.href;
-    const parts = url.split('/').filter(part => part); // Remove strings vazias
+    const parts = url.split(/[?#]/)[0].split('/').filter(part => part); // Remove strings vazias
     return parts[parts.length - 1]; // Retorna o último segmento
+}
+
+function extractHandleAndPostIdFromUrl(url) {
+    const regex = /\/profile\/([^\/\.]+(?:\.[^\/\.]+)*)\/post\/([^\/\?#]+)/;
+    const match = url.match(regex);
+
+    if (match) {
+        return {
+            handle: match[1],
+            postId: match[2]
+        };
+    } else {
+        return null; 
+    }
 }
