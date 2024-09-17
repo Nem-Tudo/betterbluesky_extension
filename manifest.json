@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "BetterBluesky - Trends, Bookmarks, Polls & more",
-    "version": "2.651",
+    "version": "2.652",
     "description": "Improve your Bluesky experience! Add Trending Topics, Bookmarks, Polls, improve design, fix bugs and more!",
     "action": {
         "default_popup": "index.html"
