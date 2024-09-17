@@ -753,3 +753,7 @@ div[id^="radix-"]:not([data-radix-menu-content]):hover .css-146c3p1 {
 #bookmarkbutton[marked="false"] .bookmarkbutton_unmarkedimage{
     display: block;
 }
+
+html.theme--light #bookmarkbutton[marked="false"]{
+    filter: invert(1);
+}
