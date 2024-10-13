@@ -413,7 +413,7 @@ function addDownloadVideoButton() {
 }
 
 async function addBookmarkButton() {
-    const elements = document.querySelectorAll('div[class="css-175oi2r r-1hfyk0a r-1qfoi16 r-1mi0q7o"] div[class="css-175oi2r r-1hfyk0a r-1qfoi16"] > div:first-child') //div[class="css-175oi2r r-13awgt0 r-bnwqim r-417010"] div[class="css-175oi2r"][style="flex-direction: row; justify-content: space-between; align-items: center;"]
+    const elements = document.querySelectorAll('div[class="css-175oi2r r-1loqt21 r-1hfyk0a r-ry3cjt"] div[style="flex-direction: row; justify-content: space-between; align-items: center;"], div[style="padding-top: 8px; padding-bottom: 2px; margin-left: -5px;"] > div')
     const data = extractHandleAndPostIdFromUrl(window.location.href);
 
     for (const element of elements) {
