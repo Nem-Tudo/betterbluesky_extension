@@ -1,5 +1,6 @@
 
-const apiDomain = "https://betterbluesky.nemtudo.me"; //production
+// const apiDomain = "https://betterbluesky.nemtudo.me"; //production
+const apiDomain = "https://apibetterbluesky.nemtudo.me"; //production
 // const apiDomain = "http://localhost:3692"; //dev
 let trendsUpdatesCounts = 0;
 
